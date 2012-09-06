@@ -77,9 +77,4 @@ fixture.set(
 )
 
 fixture.load()
-
-from council.graph.model import Membership
-for membership in services.get('council.db').query(Membership).all():
-    print membership.council.name, membership.user.name
-
 application.start()
