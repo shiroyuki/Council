@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="css/mock.css"/>
+{% endblock %}
+
+{% block javascripts %}<script src="js/page/index.js"></script>{% endblock %}
+
+{% block header %}
+    {{ super() }}
+
+    <span class="user">
+        <span class="name">{{ current_user.name }}</span>
+        <img class="avatar" src={{ current_user.gravatar(48) }}/>
+    </span>
+{% endblock %}
+
+{% block body %}
+    <menu class="primary" type="toolbar">
+        <a><span class="glyph general">9</span> <span class="count">45</span></a>
+        <a><span class="glyph general">a</span></a>
+        <div class="dropdown">
+            <a class="more dropdown-toggle" data-toggle="dropdown" href="#">•••</a>
+            <ul class="dropdown-menu">
+                <li><a href="http://gravatar.com">Change your avatar</a></li>
+            </ul>
+        </div>
+    </menu>
+
+    <article>
+        <section class="councils">
+            <h2>Councils</h2>
+            <form action="#council/query" method="post">
+                <div class="input-append">
+                    <input name="query" size="16" type="text" placeholder="Council"/>
+                    <button class="btn new" type="submit"><i class="icon-plus"></i></button>
+                    <button class="btn search" type="submit"><i class="icon-search"></i></button>
+                </div>
+            </form>
+            <ul class="list" data-placeholder="Please join a council or establish one.">
+                {% for membership in memberships -%}
+                <li class="council grand-master" data-search-facet="{{ membership.council.normalized_name }}">
+                    <span class="name">{{ membership.council.name }}</span>
+                    <span class="rank">Committee</span>
+                </li>
+                {%- endfor %}
+            </ul>
+        </section>
+    </article>
+{% endblock %}

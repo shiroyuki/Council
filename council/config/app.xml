@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+    <include src="base.xml"/> <!-- include fromt other configuration files -->
+    <server>
+        <debug>true</debug>
+        <port>8000</port>
+    </server>
+    <routes>
+        <!-- VENDOR/BOOTSTRAP -->
+        <!--<resource
+            location="resources/vendor/foundation"
+            pattern="/v/f/(.+)"
+            cache="true"/>-->
+
+        <resource
+            location="resources/vendor/requirejs/require.js"
+            pattern="/v/r.js"
+            cache="true"/>
+
+        <resource
+            location="resources/vendor/foundation-icon/foundation-icons-general"
+            pattern="/v/fi/g/(.+)"
+            cache="true"/>
+
+        <resource
+            location="resources/vendor/bootstrap"
+            pattern="/v/b/(.+)"
+            cache="true"/>
+
+        <resource location="resources/vendor" pattern="/v/(.+)" cache="true"/>
+        <resource location="resources/css" pattern="/css/(.+)" cache="false"/>
+        <resource location="resources/image" pattern="/image/(.+)" cache="false"/>
+        <resource location="resources/js" pattern="/js/(.+)" cache="false"/>
+    </routes>
+    <service>service.xml</service>
+</application>

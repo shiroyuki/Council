@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<imagination>
+    <!-- See the documentation of Imagination at http://shiroyuki.com/work/project-imagination. -->
+    <!--
+    <entity id="css-compressor"
+            class="tori.service.data.compressor.CSSCompressor"
+            tags="resource-service-plugin"
+    />
+    -->
+
+    <entity id="council.db" class="tori.db.service.RelationalDatabaseService" interceptable="false">
+        <!--<param name="url">sqlite:///app.db</param>-->
+        <param name="echo" type="bool">False</param>
+    </entity>
+
+    <entity id="session" class="tori.session.MemorySession"/>
+
+    <entity id="council.db.security.user" class="tori.db.service.EntityService" interceptable="false">
+        <param name="db" type="entity">council.db</param>
+        <param name="kind" type="class">council.security.model.User</param>
+    </entity>
+</imagination>

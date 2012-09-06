@@ -1,0 +1,233 @@
+/***** Bootstrap Overriding *****/
+
+/***** Mocking *****/
+body {
+    background-color: rgb(97%, 97%, 97%);
+}
+
+a {
+    cursor: pointer;
+}
+
+header {
+    z-index: 2;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+    text-transform: uppercase;
+    color: #ccc;
+}
+
+header .brand {
+    display: inline-block;
+}
+
+header .user {
+    display: inline-block;
+    font-weight: 700;
+    color: #000;
+    margin-left: 10px;
+}
+
+header .user .avatar {
+    margin-left: 10px;
+}
+
+header .user .name {
+    text-transform: uppercase;
+}
+
+menu.primary {
+    z-index: 1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 10px 0 0 10px;
+    height: 48px;
+    background-color: inherit;
+}
+
+menu.primary > .dropdown {
+    display: inline-block;
+}
+
+menu.primary > a,
+menu.primary > .dropdown > a {
+    -webkit-transition: all ease 250ms;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    color: #999;
+    padding: 2px 7px 5px 7px;
+    border-radius: 2px;
+    font-size: 24px;
+}
+
+menu.primary > a > .glyph,
+menu.primary > .dropdown > a > .glyph {
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+menu.primary > .dropdown.open > a {
+    background-color: #999;
+    color: #fff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+menu.primary > .dropdown.open > .dropdown-menu {
+    margin-top: 0;
+    border-radius: 0;
+    padding: 0;
+    border: none;
+    background-color: #999;
+}
+
+menu.primary > .dropdown.open > .dropdown-menu a {
+    color: #fff;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+menu.primary > .dropdown > a.more {
+    padding-top: 4px;
+}
+
+menu.primary > a:hover,
+menu.primary > .dropdown > a:hover {
+    background-color: #999;
+    color: #fff;
+}
+
+article {
+    margin-top: 40px;
+}
+
+.councils {
+    padding: 20px;
+}
+
+.councils h2 {
+    display: none;
+}
+
+.councils .list {
+    margin: 0 -5px;
+    list-style: none;
+    overflow: hidden;
+}
+
+.councils .list:empty:before {
+    font-family: "FoundationIconsGeneral";
+    content: '`';
+    color: #999;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.councils .list:empty:after {
+    content: attr(data-placeholder);
+    color: #999;
+    font-size: 24px;
+    font-weight: 200;
+    letter-spacing: 1px;
+}
+
+.councils .council {
+    -webkit-transition: all ease 250ms;
+    display: block;
+    float: left;
+    position: relative;
+    width: 240px;
+    height: 120px;
+    margin: 5px;
+    background-color: #fff;
+    background-image: url('../image/status-indicator-green.png');
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+
+.councils .council .name {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 40%;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 200;
+}
+
+.councils .council .rank {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 60%;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 200;
+    color: #ccc;
+}
+
+.councils .council.private {
+    background-image: url('../image/status-indicator-orange.png');
+}
+
+.councils .council.omitted {
+    overflow: hidden;
+    width: 0;
+    opacity: 0;
+    background-color: #000;
+}
+
+.councils .list.focused .council:not(.target) {
+    display: none;
+}
+
+.councils .list.focused .council.target {
+    z-index: 1;
+    position: fixed;
+    top: 68px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: auto;
+    height: auto;
+    border: 2px solid #eee;
+    min-width: 300px;
+    min-height: 300px;
+}
+
+.councils .list.focused .council.target .name {
+    position: static;
+    margin: 20px 20px 0 20px;
+    display: block;
+}
+
+.councils .list.focused .council.target .rank {
+    position: static;
+    margin: 0 20px 20px 20px;
+    display: block;
+}
+
+.councils .council:not(.target):hover {
+    box-shadow: #ddd 0 0 5px;
+}
+
+form[action="#council/query"] button.new {
+    display: none;
+}
+
+footer {
+    -webkit-transition: all ease 1000ms;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 5px 10px;
+    color: #999;
+}

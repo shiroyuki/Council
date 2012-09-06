@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}The Council Project{% endblock %}</title>
+    <link rel="stylesheet" href="/v/fi/g/stylesheets/foundation-icons-general.css"/>
+    <link rel="stylesheet" href="/v/b/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/v/b/css/bootstrap-responsive.min.css"/>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <header>{% block header %}
+        <span class="brand">The Council Project</span>
+    {% endblock %}</header>
+    {% block body %}{% endblock %}
+    <footer>{% block footer %}
+        &copy; Juti Noppornpitak. Licensed under MIT license.
+    {% endblock %}</footer>
+    {% for script_name in [
+        'r',
+        'jquery',
+        'b/js/bootstrap.min'
+    ] -%}
+        <script src="/v/{{ script_name }}.js"></script>
+    {%- endfor %}
+    <script>
+        requirejs.config({baseUrl: '/js'});
+    </script>
+    {% block javascripts %}{% endblock %}
+</body>
+</html>
