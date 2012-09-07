@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="css/layout.css"/>
     <link rel="stylesheet" href="css/mock.css"/>
 {% endblock %}
 
@@ -17,26 +18,28 @@
 
 {% block body %}
     <menu class="primary" type="toolbar">
-        <a><span class="glyph general">9</span> <span class="count">45</span></a>
-        <a><span class="glyph general">a</span></a>
+        <a class="base current">Councils</a>
         <div class="dropdown">
-            <a class="more dropdown-toggle" data-toggle="dropdown" href="#">•••</a>
+            <a class="base dropdown-toggle" data-toggle="dropdown" href="#">•••</a>
             <ul class="dropdown-menu">
-                <li><a href="http://gravatar.com">Change your avatar</a></li>
+                <li><a>About the Council Project</a></li>
+                <li><a>Support and Documentation</a></li>
             </ul>
         </div>
+        <a class="base"><span class="glyph general">9</span> <span class="count">45</span></a>
+        <div class="dropdown">
+            <a class="base dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyph general">a</span></a>
+            <ul class="dropdown-menu">
+                <li><a href="http://gravatar.com" target="_blank">Change your avatar <i class="icon-share-alt"></i></a></li>
+            </ul>
+        </div>
+        <a class="base search"><span class="glyph general">=</span></a>
+        {%- include 'widget/council-search-form.html' -%}
     </menu>
 
     <article>
         <section class="councils">
             <h2>Councils</h2>
-            <form action="#council/query" method="post">
-                <div class="input-append">
-                    <input name="query" size="16" type="text" placeholder="Council"/>
-                    <button class="btn new" type="submit"><i class="icon-plus"></i></button>
-                    <button class="btn search" type="submit"><i class="icon-search"></i></button>
-                </div>
-            </form>
             <ul class="list" data-placeholder="Please join a council or establish one.">
                 {% for membership in memberships -%}
                 <li class="council grand-master" data-search-facet="{{ membership.council.normalized_name }}">

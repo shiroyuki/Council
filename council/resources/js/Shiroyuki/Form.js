@@ -1,45 +1,90 @@
+/**
+ * Asynchronous Form
+ *
+ * This is a prototype of Passerine project.
+ *
+ * License: MIT License
+ *
+ * @copyright 2012 Juti Noppornpitak
+ * @author Juti Noppornpitak <jnopporn@shiroyuki.com>
+ * @extends Shiroyuki/Event/Extension
+ */
 define(
     'Shiroyuki/Form',
     ['jquery', 'Shiroyuki/Event/Extension'],
     function ($, Extension) {
         'use strict';
-        function Form($form, alwaysDelegate, preventDefault) {
-            alwaysDelegate = alwaysDelegate || false;
+
+        function FormEvent(form, originalEvent) {
+            'use strict';
+
+            this.form     = form;
+            this.original = originalEvent;
+        }
+
+        $.extend(FormEvent.prototype, {
+            form:     null,
+            original: null
+        });
+
+        function Form($form, preventDefault) {
+            'use strict';
+
             preventDefault = preventDefault || true;
 
-            var self = this, eventOrigin;
+            var self = this,
+                eventOrigin,
+                handlers = {
+                    onSubmit: function (event) {
+                        if (preventDefault) {
+                            event.preventDefault();
+                        }
 
-            function onSubmit(event) {
-                if (preventDefault) {
-                    event.preventDefault();
-                }
+                        var eventData = new FormEvent(self, event);
 
-                var eventData = { container: self.getElement(), original: event };
+                        self.dispatchEvent('submit.before', this, eventData);
+                        self.dispatchEvent('submit.execute', this, eventData);
+                        self.dispatchEvent('submit.done', this, eventData);
+                    },
+                    onChange: function (event) {
+                        event.preventDefault();
 
-                self.dispatchEvent('submit.before', this, eventData);
-                self.dispatchEvent('submit.execute', this, eventData);
-                self.dispatchEvent('submit.done', this, eventData);
-            }
+                        var eventData = new FormEvent(self, event);
 
-            function onChange(event) {
-                var eventData = { container: self.getElement(), original: event };
+                        self.dispatchEvent('change', this, eventData);
+                    },
+                    onReset: function (event) {
+                        if ($(this).attr('disabled') !== undefined) {
+                            return;
+                        }
 
-                self.dispatchEvent('change', this, eventData);
-            }
+                        var eventData = new FormEvent(self, event);
+
+                        self.dispatchEvent('reset', this, eventData);
+                        setTimeout(function () {
+                            self.dispatchEvent('change', this, eventData);
+                        }, 100);
+                    }
+                };
 
             this.$form = $form;
 
-            if (alwaysDelegate) {
-                eventOrigin = this.$form.parent();
+            this.$form
+                .on('submit', handlers.onSubmit);
 
-                eventOrigin.on('submit', 'form', onSubmit);
-                eventOrigin.on('keyup', 'form input[type="text"], form input[type="password"], form textarea', onChange);
-                eventOrigin.on('change', 'form input:not([type="text"], input[type="password"]), form select', onChange);
-            } else {
-                this.$form.on('submit', onSubmit);
-                this.$form.find('input[type="text"], input[type="password"], textarea').on('keyup', onChange);
-                this.$form.find('input:not([type="text"], input[type="password"]), select, textarea').on('change', onChange);
-            }
+            this.$form
+                .find('input[type="text"], input[type="password"], textarea')
+                .on('keyup', handlers.onChange);
+
+            this.$form
+                .find('select')
+                .on('change', handlers.onChange);
+
+            this.$form
+                .find('button[type="reset"]')
+                .on('click', handlers.onReset);
+
+            //this.$form.find('input[type="te, select, textarea')
         }
 
         $.extend(Form.prototype, Extension.prototype, {

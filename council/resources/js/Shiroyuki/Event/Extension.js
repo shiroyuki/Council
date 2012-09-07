@@ -1,3 +1,13 @@
+/**
+ * Event-driven Class Extension
+ *
+ * This is a prototype of Passerine project.
+ *
+ * License: MIT License
+ *
+ * @copyright 2012 Juti Noppornpitak
+ * @author Juti Noppornpitak <jnopporn@shiroyuki.com>
+ */
 define(
     'Shiroyuki/Event/Extension',
     ['jquery'],
@@ -23,10 +33,10 @@ define(
             addEventListener: function (kind, listener) {
                 document.addEventListener(this.getFullEventKind(kind), listener);
             },
-            dispatchEvent: function (kind, eventTarget, data) {
+            dispatchEvent: function (kind, target, data) {
                 data = data || {};
 
-                data.eventTarget = eventTarget;
+                data.target = target;
 
                 var e = document.createEvent('CustomEvent');
                 e.initCustomEvent(this.getFullEventKind(kind), false, true, data);
