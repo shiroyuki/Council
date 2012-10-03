@@ -13,6 +13,11 @@
             cache="true"/>-->
 
         <resource
+            location="/Users/jnopporn/tmp/Archive.zip"
+            pattern="/t/a.zip"
+            cache="true"/>
+
+        <resource
             location="resources/vendor/requirejs/require.js"
             pattern="/v/r.js"
             cache="true"/>
