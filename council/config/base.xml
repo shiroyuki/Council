@@ -15,6 +15,16 @@
         -->
         <controller class="council.controller.Home" pattern="/"/>
         <controller class="council.controller.Mock" pattern="/mock"/>
-        <controller class="council.security.controller.GoogleHandler" pattern="/login"/>
+        <controller class="council.controller.Login" pattern="/login"/>
+
+        <controller
+            class="council.security.controller.LocalHandler"
+            pattern="/login/local"
+        />
+
+        <controller
+            class="council.security.controller.GoogleHandler"
+            pattern="/login/google"
+        />
     </routes>
 </application>

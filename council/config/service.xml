@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <imagination>
     <!-- See the documentation of Imagination at http://shiroyuki.com/work/project-imagination. -->
-    <!--
-    <entity id="css-compressor"
-            class="tori.service.data.compressor.CSSCompressor"
-            tags="resource-service-plugin"
-    />
-    -->
 
-    <entity id="council.db" class="tori.db.service.RelationalDatabaseService" interceptable="false">
-        <!--<param name="url">sqlite:///app.db</param>-->
-        <param name="echo" type="bool">False</param>
+    <entity id="council.db" class="tori.db.service.DatabaseRepository" interceptable="false">
+        <!-- <param name="url">sqlite:///app.db</param> -->
+        <param name="echo" type="bool">True</param>
     </entity>
 
-    <entity id="session" class="tori.session.MemorySession"/>
-
-    <entity id="council.db.security.user" class="tori.db.service.EntityService" interceptable="false">
-        <param name="db" type="entity">council.db</param>
-        <param name="kind" type="class">council.security.model.User</param>
+    <entity id="council.service.authentication" class="council.security.service.AccessControl">
+        <param name="database_repository" type="entity">council.db</param>
     </entity>
+
+    <entity id="session" class="tori.session.repository.memory.Memory"/>
 </imagination>

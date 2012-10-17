@@ -1,0 +1,3 @@
+mkdir -p mongo/$1
+mkdir -p log
+mongod --fork --logpath log/mongo.$1.log --logappend --dbpath mongo/$1

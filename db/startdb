@@ -1,0 +1,7 @@
+if [ -z "$1" ]; then
+    echo "Please specify the environment. (e.g., dev, test and prod)"
+    exit
+fi
+
+mkdir -p mongo/$1
+mongod --dbpath mongo/$1

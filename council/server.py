@@ -5,8 +5,8 @@ from tori.centre      import services
 from tori.db.fixture  import Fixture
 
 application = Application('config/app.xml')
-
-fixture = Fixture()
+repository  = services.get('council.db')
+fixture     = Fixture(repository)
 
 fixture.set(
     'council.graph.model.Council',
@@ -72,9 +72,15 @@ fixture.set(
 fixture.set(
     'council.security.model.Provider',
     {
-        'local': { 'name': 'Local' }
+        'local': { 'id': 1, 'name': 'Local' },
+        'google': { 'id': 2, 'name': 'Google' }
     }
 )
 
-fixture.load()
+try:
+    if self.reflect():
+        fixture.load()
+except:
+    pass
+
 application.start()
