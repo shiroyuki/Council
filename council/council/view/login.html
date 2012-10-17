@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <form action="{{ app.request.uri }}/local" method="post" class="form login">
+        <div class="control-groups">
+            <label>E-mail address</label>
+            <input name="key" type="text" placeholder="E-mail address"/>
+        </div>
+        <div class="control-groups">
+            <label>Password</label>
+            <input name="password" type="Password" placeholder="Password"/>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Log in</button>
+            <a href="/login/google">Log in with Google</a>
+        </div>
+    </form>
+{% endblock %}
