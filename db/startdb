@@ -1,7 +1,15 @@
+PATH_PREFIX=~/data
+
 if [ -z "$1" ]; then
     echo "Please specify the environment. (e.g., dev, test and prod)"
     exit
 fi
 
-mkdir -p mongo/$1
-mongod --dbpath mongo/$1
+PATH_DB=$PATH_PREFIX/db/mongo/$1
+PATH_LOG_DIR=$PATH_PREFIX/log
+PATH_LOG_FILE=$PATH_LOG_DIR/mongo.$1.log
+
+mkdir -p $PATH_DB
+mkdir -p $PATH_LOG_DIR
+
+mongod --logpath $PATH_LOG_FILE --logappend --dbpath $PATH_DB
