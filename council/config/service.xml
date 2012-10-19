@@ -2,13 +2,25 @@
 <imagination>
     <!-- See the documentation of Imagination at http://shiroyuki.com/work/project-imagination. -->
 
-    <entity id="council.db" class="tori.db.service.DatabaseRepository" interceptable="false">
+    <!-- MongoDB -->
+    <entity id="council.mongodb" class="tori.db.odm.database.Database">
+        <param name="name" type="unicode">council_dev</param>
+    </entity>
+
+    <entity id="council.collection.security.log" class="tori.db.odm.collection.Collection">
+        <param name="database" type="entity">council.mongodb</param>
+        <param name="name" type="unicode">security_log</param>
+        <param name="document_class" type="class">council.security.model.Log</param>
+    </entity>
+
+    <!-- Relational DB -->
+    <entity id="council.rdb" class="tori.db.service.DatabaseRepository" interceptable="false">
         <!-- <param name="url">sqlite:///app.db</param> -->
-        <param name="echo" type="bool">True</param>
+        <param name="echo" type="bool">False</param>
     </entity>
 
     <entity id="council.service.authentication" class="council.security.service.AccessControl">
-        <param name="database_repository" type="entity">council.db</param>
+        <param name="database_repository" type="entity">council.rdb</param>
     </entity>
 
     <entity id="session" class="tori.session.repository.memory.Memory"/>

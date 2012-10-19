@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
+{% block javascripts %}<script src="js/page/login.js"></script>{% endblock %}
+
 {% block body %}
     <form action="{{ app.request.uri }}/local" method="post" class="form login">
         <div class="control-groups">
             <label>E-mail address</label>
-            <input name="key" type="text" placeholder="E-mail address"/>
+            <input name="key" type="email" placeholder="E-mail address"/>
         </div>
         <div class="control-groups">
             <label>Password</label>

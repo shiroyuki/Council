@@ -23,6 +23,11 @@
         />
 
         <controller
+            class="council.socket.Authentication"
+            pattern="/login/socket"
+        />
+
+        <controller
             class="council.security.controller.GoogleHandler"
             pattern="/login/google"
         />

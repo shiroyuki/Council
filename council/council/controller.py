@@ -32,7 +32,7 @@ class Mock(Controller):
     logger = get_logger('%s.Mock' % (__name__))
 
     def get(self):
-        repository  = self.component('council.db')
+        repository  = self.component('council.rdb')
         user        = repository.get(User, 1)
         memberships = repository.query(Membership).filter(Membership.user == user).all()
 
