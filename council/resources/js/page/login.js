@@ -1,18 +1,15 @@
 require(
     [
-        'jquery'
+        'jquery',
+        'Shiroyuki/Async/WSRPC'
     ],
-    function ($) {
+    function ($, RPC) {
         'use strict';
 
         var domainAndPort = String(location.href).replace(/^http:\/\//, '').replace(/\/.*$/, ''),
-            ws = new WebSocket(['ws://', domainAndPort, '/login/socket'].join(''));
+            ws = new RPC(['ws://', domainAndPort, '/login/socket'].join(''));
 
-        ws.onopen = function() {
-           ws.send("Hello, world");
-        };
-        ws.onmessage = function (evt) {
-           alert(evt.data);
-        };
+        ws.addEventListener('open', $.proxy(function() { this.call(null, 'message', {message: 'connection established'}); }, ws));
+        ws.addEventListener('response', function(event) { console.log(event.detail.result); });
     }
 );

@@ -1,6 +1,12 @@
-from tornado.websocket import WebSocketHandler
+from tori.socket.rpc import Interface
 
 # Should be in the security bundle
-class Authentication(WebSocketHandler):
-    def on_message(self, message):
-        self.write_message(u'OK')
+class Authentication(Interface):
+    def open(self):
+        self.broadcast(u'Someone just joined in!')
+
+    def message(self, message):
+        return message
+
+    def close(self):
+        self.broadcast(u'Someone just exited!')

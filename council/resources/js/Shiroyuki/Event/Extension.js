@@ -33,10 +33,8 @@ define(
             addEventListener: function (kind, listener) {
                 document.addEventListener(this.getFullEventKind(kind), listener);
             },
-            dispatchEvent: function (kind, target, data) {
+            dispatchEvent: function (kind, data) {
                 data = data || {};
-
-                data.target = target;
 
                 var e = document.createEvent('CustomEvent');
                 e.initCustomEvent(this.getFullEventKind(kind), false, true, data);

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
+from logging import WARNING
 
 from tori.application import Application
 from tori.centre import services
+from tori.common import LoggerFactory
 
 from council.security.model import Log
 import fixtures
 
-application = Application('config/app.xml')
+LoggerFactory.instance().set_default_level(WARNING)
 
+application = Application('config/app.xml')
 
 # Load data fixtures if necessary
 fixtures.auto_load()
