@@ -12,6 +12,7 @@ define(
 
         var WSRPC = function (endpoint) {
             this.init(endpoint);
+            this.uid = 0;
         };
 
         $.extend(WSRPC.prototype, Socket.prototype, {
@@ -19,13 +20,11 @@ define(
                 service = service || null;
 
                 var returnee = {
-                    id:      Date.now(),
+                    id:      ++this.uid,
                     method:  method,
                     data:    data,
                     service: service
                 };
-
-                console.log(returnee);
 
                 return returnee;
             },

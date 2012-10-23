@@ -27,12 +27,15 @@ define(
 
                 return this.identifier;
             },
+
             getFullEventKind: function (kind) {
                 return [this.getIdentifier(), kind].join('.');
             },
+
             addEventListener: function (kind, listener) {
                 document.addEventListener(this.getFullEventKind(kind), listener);
             },
+
             dispatchEvent: function (kind, data) {
                 data = data || {};
 
