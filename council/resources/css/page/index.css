@@ -1,0 +1,82 @@
+body {
+    line-height: normal;
+}
+
+header {
+    -webkit-transition: all ease 200ms;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    text-align: left;
+}
+
+header .brand {
+    color: #ddd;
+}
+
+footer {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+form.login {
+    display: none;
+}
+
+#r {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background: #ffffff; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
+    background: -ms-radial-gradient(center, ellipse cover, #ffffff 0%,#eeeeee 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center, #ffffff 0%,#eeeeee 100%); /* W3C */
+}
+
+#r[data-mode="init"] header {
+    top: auto;
+    bottom: 50%;
+}
+
+#r[data-mode="init"] header .brand {
+    display: block;
+    text-transform: lowercase;
+    font-weight: 700;
+    font-size: 72px;
+    text-align: center;
+    color: #000;
+}
+
+#r[data-mode="init"] form.login {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    display: block;
+    text-align: center;
+    padding-top: 20px;
+}
+
+#r[data-mode="init"] form.login label {
+    display: none;
+}
+
+#r[data-mode="init"] form.login .control-groups {
+    display: inline-block;
+}
+
+#r[data-mode="init"] form.login .form-actions {
+    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}

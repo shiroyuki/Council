@@ -1,7 +1,7 @@
 from tornado.auth    import GoogleMixin
 from tornado.web     import asynchronous, HTTPError
 
-from council.common.controller import Controller
+from council.common.handler import Controller
 
 class LocalHandler(Controller):
     def post(self):

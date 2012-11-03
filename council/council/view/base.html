@@ -9,23 +9,29 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-    <header>{% block header %}
-        <span class="brand">The Council Project</span>
-    {% endblock %}</header>
-    {% block body %}{% endblock %}
-    <footer>{% block footer %}
-        &copy; Juti Noppornpitak. Licensed under MIT license.
-    {% endblock %}</footer>
-    {% for script_name in [
-        'r',
-        'jquery',
-        'b/js/bootstrap.min'
-    ] -%}
-        <script src="/v/{{ script_name }}.js"></script>
-    {%- endfor %}
-    <script>
-        requirejs.config({baseUrl: '/js'});
-    </script>
-    {% block javascripts %}{% endblock %}
+    <div id="r" data-mode="stdby">
+        <header>{% block header %}
+            <span class="brand">The Council Project</span>
+        {% endblock %}</header>
+        {% block body %}{% endblock %}
+        <footer>{% block footer %}
+            &copy; Juti Noppornpitak.
+        {% endblock %}</footer>
+        {% for script_name in [
+            'r',
+            'jquery',
+            'b/js/bootstrap.min'
+        ] -%}
+            <script src="/v/{{ script_name }}.js"></script>
+        {%- endfor %}
+        <script>
+            requirejs.config({baseUrl: '/js'});
+        </script>
+        {% block javascripts %}
+            {% if js_module_name %}
+                <script>require(['Page/{{ js_module_name }}']);</script>
+            {% endif %}
+        {% endblock %}
+    </div>
 </body>
 </html>

@@ -2,8 +2,7 @@
 from logging import WARNING
 
 from tori.application import Application
-from tori.centre import services
-from tori.common import LoggerFactory
+from tori.common      import LoggerFactory
 
 from council.security.model import Log
 import fixtures

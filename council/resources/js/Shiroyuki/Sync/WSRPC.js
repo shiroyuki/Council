@@ -3,9 +3,9 @@
  * Web Socket Remote Procedure Call for Tori Framework 2.x
  */
 define(
-    'Shiroyuki/Async/WSRPC',
+    'Shiroyuki/Sync/WSRPC',
     [
-        'Shiroyuki/Async/Socket'
+        'Shiroyuki/Sync/Socket'
     ],
     function (Socket) {
         'use strict';

@@ -1,7 +1,7 @@
-from tori.socket.rpc import Interface
+from council.common.handler import WSRPCInterface
 
 # Should be in the security bundle
-class Authentication(Interface):
+class ServiceAPI(WSRPCInterface):
     def open(self):
         self.broadcast(u'Someone just joined in!')
 

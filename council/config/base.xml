@@ -14,8 +14,6 @@
             <controller class="app.web.interface.Entity"   pattern="/api/v1/entity/(\d+)/([^\s]+)/(\d*)"/>
         -->
         <controller class="council.controller.Home" pattern="/"/>
-        <controller class="council.controller.Mock" pattern="/mock"/>
-        <controller class="council.controller.Login" pattern="/login"/>
 
         <controller
             class="council.security.controller.LocalHandler"
@@ -23,8 +21,8 @@
         />
 
         <controller
-            class="council.socket.Authentication"
-            pattern="/login/socket"
+            class="council.socket.ServiceAPI"
+            pattern="/socket/service"
         />
 
         <controller
