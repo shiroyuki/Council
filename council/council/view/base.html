@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="/v/b/css/bootstrap-responsive.min.css"/>
     {% block stylesheets %}{% endblock %}
 </head>
-<body>
-    <div id="r" data-mode="stdby">
+<body data-mode="{{ 'authenticated' if council.authenticated_user else 'login' }}">
+    <article>
         <header>{% block header %}
             <span class="brand">The Council Project</span>
         {% endblock %}</header>
@@ -29,9 +29,17 @@
         </script>
         {% block javascripts %}
             {% if js_module_name %}
-                <script>require(['Page/{{ js_module_name }}']);</script>
+                <script>
+                    require(
+                        ['Page/{{ js_module_name }}'],
+                        function (Page) {
+                            'use strict';
+                            var page = new Page();
+                        }
+                    );
+                </script>
             {% endif %}
         {% endblock %}
-    </div>
+    </article>
 </body>
 </html>

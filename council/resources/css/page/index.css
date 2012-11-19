@@ -1,3 +1,5 @@
+@import url('../widget/login.css');
+
 body {
     line-height: normal;
 }
@@ -23,11 +25,7 @@ footer {
     right: 0;
 }
 
-form.login {
-    display: none;
-}
-
-#r {
+body > article {
     position: absolute;
     top: 0;
     left: 0;
@@ -41,12 +39,16 @@ form.login {
     background: radial-gradient(ellipse at center, #ffffff 0%,#eeeeee 100%); /* W3C */
 }
 
-#r[data-mode="init"] header {
+body > article form.login {
+    display: none;
+}
+
+body[data-mode="login"] header {
     top: auto;
     bottom: 50%;
 }
 
-#r[data-mode="init"] header .brand {
+body[data-mode="login"] header .brand {
     display: block;
     text-transform: lowercase;
     font-weight: 700;
@@ -55,7 +57,7 @@ form.login {
     color: #000;
 }
 
-#r[data-mode="init"] form.login {
+body[data-mode="login"] form.login {
     position: absolute;
     left: 0;
     right: 0;
@@ -65,18 +67,6 @@ form.login {
     padding-top: 20px;
 }
 
-#r[data-mode="init"] form.login label {
+body[data-mode="login"] form.login > :not(.oauth) {
     display: none;
-}
-
-#r[data-mode="init"] form.login .control-groups {
-    display: inline-block;
-}
-
-#r[data-mode="init"] form.login .form-actions {
-    display: inline-block;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
 }

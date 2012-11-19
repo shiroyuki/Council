@@ -23,5 +23,6 @@
         <param name="database_repository" type="entity">council.rdb</param>
     </entity>
 
-    <entity id="session" class="tori.session.repository.memory.Memory"/>
+    <!--<entity id="session" class="tori.session.repository.memory.Memory"/>-->
+    <entity id="session" class="tori.session.repository.xredis.Redis"/>
 </imagination>

@@ -1,3 +1,4 @@
+/*global define:true, WebSocket:true */
 define(
     'Shiroyuki/Sync/Socket',
     [
@@ -25,29 +26,31 @@ define(
                  *
                  * If the limit is set to zero (0),
                  *
-                 * @type integer
+                 * @type int
                  */
                 reconnectionMaxAttempts: 10,
                 /**
                  * The delay between the failed reconnection and the new one
-                 * described in miliseconds.
+                 * described in milliseconds.
                  *
-                 * @type integer
+                 * @type int
                  */
                 reconnectionDelay: 1000
             },
             init: function (endpoint, options) {
+                var self = this;
                 this.options = options || {};
 
                 $.each(this.defaultOptions, function (name, defaultValue) {
-                    if (this.options.hasOwnProperty(name)) {
-                        this.options[name] = options[name] || defaultValue;
+                    if (self.options.hasOwnProperty(name)) {
+                        self.options[name] = options[name] || defaultValue;
                     }
                 });
 
                 this.connected = false;
                 this.endpoint  = endpoint;
-                this.socket    = this.connect();
+
+                this.connect();
 
                 this.socket.addEventListener('open', $.proxy(this.onOpen, this));
                 this.socket.addEventListener('message', $.proxy(this.onMessage, this));
@@ -55,7 +58,7 @@ define(
             },
 
             connect: function () {
-                this.socket = new WebSocket(endpoint);
+                this.socket = new WebSocket(this.endpoint);
             },
 
             onOpen: function (event) {
@@ -75,7 +78,7 @@ define(
             },
 
             send: function (message) {
-                this.socket.send(message)
+                this.socket.send(message);
             }
         });
 

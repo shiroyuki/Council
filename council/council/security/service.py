@@ -10,6 +10,30 @@ class AccessPass(object):
         self._alias = alias
         self._email = email
 
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def email(self):
+        return self._email
+
+    @property
+    def alias(self):
+        return self._alias
+
+    def to_array(self):
+        return {
+            'id':    self._id,
+            'name':  self._name,
+            'alias': self._alias,
+            'email': self._email
+        }
+
 class AbstractService(object):
     def __init__(self, database_repository):
         self._database_repository = database_repository

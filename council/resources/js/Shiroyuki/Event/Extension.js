@@ -1,3 +1,4 @@
+/*global document */
 /**
  * Event-driven Class Extension
  *

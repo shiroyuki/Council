@@ -2,6 +2,7 @@ from tornado.auth    import GoogleMixin
 from tornado.web     import asynchronous, HTTPError
 
 from council.common.handler import Controller
+from council.security.model import Credential, Provider
 
 class LocalHandler(Controller):
     def post(self):
@@ -21,6 +22,8 @@ class LocalHandler(Controller):
         self.session.set('user', access_pass)
 
 class GoogleHandler(Controller, GoogleMixin):
+    _providers = {}
+
     @asynchronous
     def get(self):
         if self.get_argument("openid.mode", None):
@@ -33,7 +36,23 @@ class GoogleHandler(Controller, GoogleMixin):
     def _on_auth(self, user):
         if not user:
             #raise HTTPError(500, "Google auth failed")
-            self.redirect('/')
-        # Save the user with, e.g., set_secure_cookie()
+            self.redirect('/login/google/e403')
 
-        #self.session.set('user', user)
+            return
+
+        if 'google' not in self._providers:
+            rdb = self.rdb()
+
+            provider = rdb.query(Provider).filter(name='Google').first()
+            
+
+        self.session.set('user', user)
+
+        self.redirect('/')
+
+    def rdb(self):
+        '''
+        :rtype: tori.db.service.DatabaseRepository
+        :return: the entity of the relational database repository
+        '''
+        return self.component('council.rdb')

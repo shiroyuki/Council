@@ -8,5 +8,5 @@ class ServiceAPI(WSRPCInterface):
     def message(self, message):
         return message
 
-    def close(self):
+    def _on_close(self):
         self.broadcast(u'Someone just exited!')

@@ -10,15 +10,20 @@
  * @extends Shiroyuki/Event/Extension
  */
 define(
-    'Shiroyuki/Form',
-    ['jquery', 'Shiroyuki/Event/Extension'],
-    function ($, Extension) {
+    'Shiroyuki/Async/Form',
+    [
+        'jquery',
+        'Shiroyuki/Event/Extension',
+        'Shiroyuki/Async/Request'
+    ],
+    function ($, Extension, Request) {
         'use strict';
 
-        function Form($form, preventDefault) {
-            'use strict';
-
-            this.$form = $form;
+        function Form($form, isAsynchronous) {
+            this.$form          = $form;
+            this.isAsynchronous = isAsynchronous || true;
+            this.block          = false;
+            this.inputSelector  = 'input, textarea, select';
 
             this.$form
                 .on('submit', $.proxy(this.onSubmit, this));
@@ -26,34 +31,67 @@ define(
             this.$form
                 .find('button[type="reset"]')
                 .on('click', $.proxy(this.onReset, this));
-
-            //this.$form.find('input[type="te, select, textarea')
         }
 
         $.extend(Form.prototype, Extension.prototype, {
             getElement: function () {
                 return this.$form;
             },
-            isDisabled: function () {
-                return this.$form.attr('disabled') !== undefined;
+
+            getData: function () {
+                var inputList = this.$form.find(this.inputSelector),
+                    //dataKeyValuePairList = [], // it is a 2D array to allow multiple data on a single key (array parameter)
+                    dataMap = {},
+                    inputElement;
+
+                inputList.each(function (index) {
+                    inputElement = $(this);
+
+                    dataMap[inputElement.attr('name')] = inputElement.val();
+                });
+
+                return dataMap;
             },
+
+            isDisabled: function () {
+                var disabled = this.$form.attr('disabled') || false;
+
+                return disabled
+                    && [true, 'disabled'].indexOf(disabled) >= 0;
+            },
+
+            setBlock: function (block) {
+                this.block = block;
+            },
+
             onSubmit: function (event) {
-                event.preventDefault();
+                if (this.isAsynchronous) {
+                    event.preventDefault();
+                }
 
                 if (this.isDisabled()) {
+                    return this.dispatchEvent('disabled');
+                }
+
+                this.dispatchEvent('before', {form: this});
+
+                if (!this.isAsynchronous) {
                     return;
                 }
 
-                self.dispatchEvent('submit.before', eventData);
-                self.dispatchEvent('submit.execute', eventData);
-                self.dispatchEvent('submit.done', eventData);
+                if (this.block) {
+                    return this.dispatchEvent('block', {form: this});
+                }
+
+                this.dispatchEvent('submit');
             },
+
             onReset: function (event) {
                 if (this.isDisabled()) {
-                    return;
+                    return this.dispatchEvent('disabled');
                 }
 
-                self.dispatchEvent('reset', eventData);
+                this.dispatchEvent('reset');
             }
         });
 

@@ -5,9 +5,9 @@
 define(
     'Shiroyuki/Sync/WSRPC',
     [
-        'Shiroyuki/Sync/Socket'
+        'jquery', 'Shiroyuki/Sync/Socket'
     ],
-    function (Socket) {
+    function ($, Socket) {
         'use strict';
 
         var WSRPC = function (endpoint) {
