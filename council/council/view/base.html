@@ -3,43 +3,61 @@
 <head>
     <meta charset="utf-8"/>
     <title>{% block title %}The Council Project{% endblock %}</title>
+    <meta name="viewport" content="initial-scale = 1.0, user-scalable = no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="stylesheet" href="/v/fi/g/stylesheets/foundation-icons-general.css"/>
+    <link rel="stylesheet" href="/v/fi/ge/stylesheets/foundation-icons-general-enclosed.css"/>
     <link rel="stylesheet" href="/v/b/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/v/b/css/bootstrap-responsive.min.css"/>
     {% block stylesheets %}{% endblock %}
 </head>
-<body data-mode="{{ 'authenticated' if council.authenticated_user else 'login' }}">
-    <article>
-        <header>{% block header %}
+<body class="{% if council.user %}authenticated{% endif %}">
+    <header>
+        {% block header %}
             <span class="brand">The Council Project</span>
-        {% endblock %}</header>
-        {% block body %}{% endblock %}
-        <footer>{% block footer %}
-            &copy; Juti Noppornpitak.
-        {% endblock %}</footer>
-        {% for script_name in [
-            'r',
-            'jquery',
-            'b/js/bootstrap.min'
-        ] -%}
-            <script src="/v/{{ script_name }}.js"></script>
-        {%- endfor %}
-        <script>
-            requirejs.config({baseUrl: '/js'});
-        </script>
-        {% block javascripts %}
-            {% if js_module_name %}
-                <script>
-                    require(
-                        ['Page/{{ js_module_name }}'],
-                        function (Page) {
-                            'use strict';
-                            var page = new Page();
-                        }
-                    );
-                </script>
-            {% endif %}
         {% endblock %}
-    </article>
+    </header>
+    <nav class="control main navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <a href="/" class="brand">The Council Project</a>
+            {% block navigation %}
+                {% if council.user %}
+                    <ul class="nav pull-right">
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </nav>
+    <article id="viewport" class="row-fluid">{% block body %}{% endblock %}</article>
+    <footer>
+        {% block footer %}
+            <span class="copyright">&copy; Juti Noppornpitak</span>
+        {% endblock %}
+    </footer>
+    {% for script_name in [
+        'r',
+        'jquery',
+        'b/js/bootstrap.min'
+    ] -%}
+        <script src="/v/{{ script_name }}.js"></script>
+    {%- endfor %}
+    <script>
+        requirejs.config({baseUrl: '/js'});
+    </script>
+    {% block javascripts %}
+        {% if js_module_name %}
+            <script>
+                require(
+                    ['Page/{{ js_module_name }}', 'jquery'],
+                    function (Page, $) {
+                        'use strict';
+                        var page = new Page($('body'));
+                    }
+                );
+            </script>
+        {% endif %}
+    {% endblock %}
 </body>
 </html>

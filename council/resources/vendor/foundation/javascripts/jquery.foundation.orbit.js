@@ -218,7 +218,7 @@
         .css({"z-index" : 3})
         .fadeIn(function() {
           //brings in all other slides IF css declares a display: none
-          self.$slides.css({"display":"block"})
+          self.$slides.css({"display":"blocked"})
       });
     },
 

@@ -1,0 +1,48 @@
+.widget.project.list {
+}
+
+.widget.project.list ul {
+    list-style: none;
+    margin: 20px 0 0 0;
+    padding: 0;
+    line-height: 0;
+}
+
+.widget.project.list ul li {
+    display: inline-block;
+    list-style: none;
+    width: 250px;
+    margin: 0 1px 1px 0;
+}
+
+.widget.project.list ul li a {
+    position: relative;
+    display: block;
+    background-color: #eee;
+    height: 160px;
+}
+
+.widget.project.list ul li a .name {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 85px;
+    letter-spacing: 1px;
+    color: #000;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.widget.project.list ul li a .description {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 85px;
+    letter-spacing: 1px;
+    color: #000;
+    font-size: 10px;
+    font-weight: 200;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -1,4 +1,5 @@
 from tori.controller import Controller as BaseController
+from tori.controller import RestController as BaseRestController
 from tori.socket.rpc import Interface as BaseInterface
 
 class Controller(BaseController):
@@ -8,10 +9,15 @@ class Controller(BaseController):
 
     def render_template(self, template_name, **contexts):
         contexts['council'] = {
-            'authenticated_user': self.authenticated
+            'user': self.authenticated
         }
 
         return BaseController.render_template(self, template_name, **contexts)
+
+class RestController(BaseRestController):
+    @property
+    def authenticated(self):
+        return self.session.get('user')
 
 class WSRPCInterface(BaseInterface):
     @property

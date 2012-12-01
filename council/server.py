@@ -12,7 +12,8 @@ LoggerFactory.instance().set_default_level(WARNING)
 application = Application('config/app.xml')
 
 # Load data fixtures if necessary
-fixtures.auto_load()
+#fixtures.auto_load()
+fixtures.auto_load_mongodb()
 
 # Start up the service.
 application.start()

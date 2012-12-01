@@ -7,8 +7,15 @@ from council.security.service import AccessPass
 @renderer('council.view')
 class Home(Controller):
     def get(self):
-        user = self.authenticated
-
-        print AccessPass(name=user['name'], email=user['email'])
+        if not self.authenticated:
+            return self.redirect('/login')
 
         self.render('index.html', js_module_name='Index')
+
+@renderer('council.view')
+class Login(Controller):
+    def get(self):
+        if self.authenticated:
+            return self.redirect('/')
+
+        self.render('login.html', js_module_name='Login')

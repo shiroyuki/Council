@@ -1,7 +1,29 @@
 {% extends 'base.html' %}
+
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/page/index.css"/>
 {% endblock %}
+
+{% block navigation %}
+    <ul class="nav">
+        <li><a class="form-trigger new"><i class="icon-plus"></i></a></li>
+        <li><a class="form-trigger remove"><i class="icon-minus"></i></a></li>
+    </ul>
+    {{ super() }}
+{% endblock %}
+
 {% block body %}
-    {% include 'widget/login.html' %}
+    <aside class="span4">
+        <div class="panel user">
+            <a href="/users/{{ council.user.alias or council.user.id }}">
+                <img class="avatar" src="{{ council.user.gravatar }}"/>
+                <span class="name">{{ council.user.name }}</span>
+            </a>
+        </div>
+
+        {% include 'widget/project-form.html' %}
+    </aside>
+    <section class="span8">
+        {% include 'widget/project-list.html' %}
+    </section>
 {% endblock %}

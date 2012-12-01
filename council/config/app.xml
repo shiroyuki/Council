@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application>
-    <include src="base.xml"/> <!-- include fromt other configuration files -->
+    <include src="base.xml"/><!-- include from other configuration files -->
+    <include src="graph.xml"/>
+    <include src="security.xml"/>
     <server>
         <debug>true</debug>
         <port>8000</port>
@@ -25,6 +27,11 @@
         <resource
             location="resources/vendor/foundation-icon/foundation-icons-general"
             pattern="/v/fi/g/(.+)"
+            cache="true"/>
+
+        <resource
+            location="resources/vendor/foundation-icon/foundation-icons-general-enclosed"
+            pattern="/v/fi/ge/(.+)"
             cache="true"/>
 
         <resource

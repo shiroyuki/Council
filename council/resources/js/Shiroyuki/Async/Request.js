@@ -1,19 +1,21 @@
 define(
     'Shiroyuki/Async/Request',
     [
-        'jquery',
         'Shiroyuki/Event/Extension'
     ],
-    function ($, EventExtension) {
+    function (Extension) {
         'use strict';
 
-        var Request = function (url) {
+        var Request = function (url, method, data) {
+            Extension.init(this);
+
             this.url    = url;
-            this.data   = null;
-            this.method = 'GET';
+            this.data   = data || {};
+            this.method = method || 'GET';
+            this.responseType = null;
         };
 
-        $.extend(Request.prototype, EventExtension.prototype, {
+        $.extend(Request.prototype, Extension.prototype, {
             setMethod: function (method) {
                 this.method = method.toUpperCase();
             },
@@ -26,32 +28,39 @@ define(
                 this.data = data;
             },
 
+            setResponseType: function (responseType) {
+                this.responseType = responseType;
+            },
+
             send: function (params) {
-                this.dispatch(
-                    'sending',
-                    {
+                var self = this,
+                    params = {
+                        url:    this.url,
                         data:   this.data,
                         method: this.method
-                    }
-                );
+                    };
 
-                $.ajax(this.url, {
-                    data:    this.data,
-                    success: $.proxy(this.onSuccessfulRequest, this),
-                    error:   $.proxy(this.onFailedRequest, this),
-                    type:    this.method
+                this.dispatchEvent('sending', params);
+
+                $.ajax({
+                    url:      this.url,
+                    data:     this.data,
+                    success:  $.proxy(this.onSuccessfulRequest, this),
+                    error:    $.proxy(this.onFailedRequest, this),
+                    type:     this.method,
+                    dataType: this.responseType,
+                    headers:  {
+                        'Cache-Control': 'no-cache',
+                        'If-None-Match': 'no-cache'
+                    }
                 });
 
-                this.dispatch(
-                    'sent',
-                    {
-                        data:   this.data,
-                        method: this.method
-                    }
-                );
+                this.dispatchEvent('sent', params);
             },
 
             onSuccessfulRequest: function (response, textStatus, jqXHR) {
+                this.dispatchEvent('done', this);
+
                 this.dispatchEvent(
                     'success',
                     {
@@ -60,11 +69,11 @@ define(
                         textStatus: textStatus
                     }
                 );
-
-                this.dispatchEvent('done');
             },
 
             onFailedRequest: function (jqXHR, errorThrown, exception) {
+                this.dispatchEvent('done', this);
+
                 this.dispatchEvent(
                     'error',
                     {
@@ -73,8 +82,6 @@ define(
                         exception:   exception
                     }
                 );
-
-                this.dispatchEvent('done');
             }
         });
 

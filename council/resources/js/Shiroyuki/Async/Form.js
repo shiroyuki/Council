@@ -12,17 +12,17 @@
 define(
     'Shiroyuki/Async/Form',
     [
-        'jquery',
         'Shiroyuki/Event/Extension',
         'Shiroyuki/Async/Request'
     ],
-    function ($, Extension, Request) {
+    function (Extension, Request) {
         'use strict';
 
-        function Form($form, isAsynchronous) {
+        var Form = function ($form, isAsynchronous) {
+            Extension.init(this);
+
             this.$form          = $form;
             this.isAsynchronous = isAsynchronous || true;
-            this.block          = false;
             this.inputSelector  = 'input, textarea, select';
 
             this.$form
@@ -31,9 +31,25 @@ define(
             this.$form
                 .find('button[type="reset"]')
                 .on('click', $.proxy(this.onReset, this));
-        }
+        };
 
         $.extend(Form.prototype, Extension.prototype, {
+            getMethod: function () {
+                return this.$form.attr('method');
+            },
+
+            setMethod: function (method) {
+                this.$form.attr('method', method);
+
+                return this;
+            },
+
+            setUrl: function (url) {
+                this.$form.attr('action', url);
+
+                return this;
+            },
+
             getElement: function () {
                 return this.$form;
             },
@@ -60,38 +76,54 @@ define(
                     && [true, 'disabled'].indexOf(disabled) >= 0;
             },
 
-            setBlock: function (block) {
-                this.block = block;
-            },
-
             onSubmit: function (event) {
+                var request,
+                    userData = {
+                    preventDefault: false,
+                    form: this
+                };
+
+                if (this.isDisabled()) {
+                    return this.dispatchEvent('disable', this);
+                }
+
+                this.dispatchEvent('submit', userData);
+
                 if (this.isAsynchronous) {
                     event.preventDefault();
                 }
 
-                if (this.isDisabled()) {
-                    return this.dispatchEvent('disabled');
-                }
-
-                this.dispatchEvent('before', {form: this});
-
-                if (!this.isAsynchronous) {
+                if (userData.preventDefault) {
                     return;
                 }
 
-                if (this.block) {
-                    return this.dispatchEvent('block', {form: this});
-                }
+                request = new Request(this.$form.attr('action'), this.$form.attr('method'), this.getData());
 
-                this.dispatchEvent('submit');
+                request.addEventListener('success', this.onSuccess, this);
+                request.addEventListener('error', this.onError, this);
+                request.addEventListener('done', this.onDone, this);
+
+                request.send();
+            },
+
+            onSuccess: function (event) {
+                this.dispatchEvent('success', event.detail);
+            },
+
+            onError: function (event) {
+                this.dispatchEvent('error', event.detail);
+            },
+
+            onDone: function (event) {
+                this.dispatchEvent('done', {});
             },
 
             onReset: function (event) {
                 if (this.isDisabled()) {
-                    return this.dispatchEvent('disabled');
+                    return this.dispatchEvent('disable', this);
                 }
 
-                this.dispatchEvent('reset');
+                this.dispatchEvent('reset', this);
             }
         });
 

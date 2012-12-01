@@ -1,0 +1,60 @@
+@import url('../widget/login.css');
+
+@import url('_common.css');
+@import url('_app.css');
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 50%;
+    background-color: transparent;
+}
+
+header .brand {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    text-transform: lowercase;
+    font-weight: 700;
+    font-size: 36px;
+    text-align: center;
+    color: #000;
+}
+
+body > article {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+nav {
+    display: none;
+}
+
+form.login {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+form.login > :not(.oauth) {
+    display: none;
+}
+
+form.login > .oauth .btn {
+    line-height: normal;
+}
+
+@media (max-width: 767px) {
+    header .brand {
+        font-size: 24px;
+    }
+}

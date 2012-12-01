@@ -1,41 +1,69 @@
+/*global $, define */
 define(
     'Page/Index',
     [
-        'jquery',
+        'Service/RPC',
         'Shiroyuki/Async/Form',
-        'Service/RPC'
+        'Widget/Project/ListModule',
+        'Widget/Project/SaveModule'
     ],
-    function ($, Form, rpc) {
+    function (
+        rpc,
+        Form,
+        ProjectListModule,
+        ProjectSaveModule
+    ) {
         'use strict';
 
-        var Page = function () {
-            this.context = $('#r');
-            this.loginForm = new Form(this.context.find('form.login'));
+        var Page = function ($context) {
+            var i, l, levelName, $form, form;
 
-            this.loginForm.getElement().addClass('form-inline');
-            this.loginForm.addEventListener('before', this.onLoginFormValidation);
-            this.loginForm.addEventListener('submit', this.onLoginFormSubmit);
+            // Prevent highlighting.
+            $context.on('mousedown', 'a.btn, nav a', function (event) { event.preventDefault(); });
 
-            rpc.addEventListener('open', this.onOpen);
-            rpc.addEventListener('close', this.onClose);
+            this.forms   = {};
+
+            for (i = 0, l = this.levels.length; i < l; i++) {
+                levelName = this.levels[i];
+                $form     = $context.find('form.form.' + levelName);
+
+                if ($form.length) {
+                    form = new Form($form);
+
+                    this.forms[levelName] = form;
+                }
+            }
+
+            // Navigation
+            this.createFormTrigger = $context.find('.form-trigger.new');
+
+            this.createFormTrigger.on('click', $.proxy(this.onCreateFormTrigger, this));
+
+            // Project Modules
+            this.projectListModule = new ProjectListModule($context.find('.widget.project.list'));
+            this.projectSaveModule = new ProjectSaveModule(this.forms.project);
         };
 
         $.extend(Page.prototype, {
-            onOpen: function (event) {
-                console.log('connected');
+            // Access level
+            current_level: 1, // default to 'project'
+            levels: ['user', 'project', 'achievement'],
+
+            getFormByLevel: function (level) {
+                return this.forms[this.levels[level || this.current_level]];
             },
 
-            onClose: function (event) {
-                console.log('disconnected');
-            },
+            onCreateFormTrigger: function (event) {
+                event.preventDefault();
 
-            onLoginFormValidation: function (event) {
-                //console.log(event);
-                console.log(event.detail.form.getData());
-            },
+                var $anchor = $(event.currentTarget).parent(),
+                    methodName = $anchor.hasClass('active') ? 'removeClass' : 'addClass';
 
-            onLoginFormSubmit: function (event) {
-                //console.log(event);
+                $anchor.toggleClass('active');
+
+                this.getFormByLevel()
+                    .getElement()
+                    [methodName]('visible');
             }
         });
 

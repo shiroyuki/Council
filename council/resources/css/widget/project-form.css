@@ -1,0 +1,13 @@
+form.api.rest.project {
+}
+
+form.api.rest.project input {
+    width: 95%;
+}
+
+form.api.rest.project textarea {
+    width: 95%;
+    max-width: 95%;
+    height: 60px;
+    max-height: 60px;
+}

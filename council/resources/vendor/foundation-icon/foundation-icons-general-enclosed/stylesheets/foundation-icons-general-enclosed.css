@@ -10,3 +10,7 @@
     font-style: normal;
 
 }
+
+/* CSS to style glyphs */
+.glyph { cursor: default; font-size: 16px; line-height: 1; }
+.glyph.general-enclosed { font-family: "FoundationIconsGeneralEnclosed"; }

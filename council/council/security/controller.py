@@ -1,8 +1,15 @@
 from tornado.auth    import GoogleMixin
 from tornado.web     import asynchronous, HTTPError
 
-from council.common.handler import Controller
-from council.security.model import Credential, Provider
+from council.common.handler     import Controller
+from council.security.document  import AccessPass
+from council.security.exception import ControllerException
+
+class LogoutHandler(Controller):
+    def get(self):
+        self.session.set('user', None)
+
+        self.redirect('/')
 
 class LocalHandler(Controller):
     def post(self):
@@ -21,9 +28,51 @@ class LocalHandler(Controller):
 
         self.session.set('user', access_pass)
 
-class GoogleHandler(Controller, GoogleMixin):
-    _providers = {}
+class MockHandler(Controller):
+    def get(self):
 
+        credentials = self.component('council.collection.security.Credential')
+        ''' :type credentials: tori.db.odm.collection.Collection '''
+
+        providers = self.component('council.collection.security.Provider')
+        ''' :type providers: tori.db.odm.collection.Collection '''
+
+        provider = providers.filter_one(name='Google')
+
+        user = {
+            'first_name': u'Koichi',
+            'claimed_id': u'https://www.google.com/accounts/o8/id?id=abcdef',
+            'name': u'Koichi Nakayama',
+            'locale': u'en',
+            'last_name': u'Nakayama',
+            'email': u'koichi@nakayama.jp'
+        }
+
+        credential = credentials.filter_one(
+            name       = user['name'],
+            login      = user['email'],
+            provider   = provider.id
+        )
+
+        if not credential:
+            credential = credentials.new_document(
+                name       = user['name'],
+                login      = user['email'],
+                provider   = provider.id,
+                user       = None,
+                hash       = None,
+                salt       = None
+            )
+
+            credentials.post(credential)
+
+        access_pass = AccessPass(credential.id, credential.name, credential.alias, credential.login)
+
+        self.session.set('user', access_pass)
+
+        self.redirect('/')
+
+class GoogleHandler(Controller, GoogleMixin):
     @asynchronous
     def get(self):
         if self.get_argument("openid.mode", None):
@@ -34,25 +83,53 @@ class GoogleHandler(Controller, GoogleMixin):
         self.authenticate_redirect()
 
     def _on_auth(self, user):
+        credentials = self.component('council.collection.security.Credential')
+        ''' :type credentials: tori.db.odm.collection.Collection '''
+
+        providers = self.component('council.collection.security.Provider')
+        ''' :type providers: tori.db.odm.collection.Collection '''
+
         if not user:
-            #raise HTTPError(500, "Google auth failed")
             self.redirect('/login/google/e403')
 
             return
 
-        if 'google' not in self._providers:
-            rdb = self.rdb()
+        provider = providers.filter_one(name='Google')
 
-            provider = rdb.query(Provider).filter(name='Google').first()
-            
+        if not provider:
+            raise ControllerException('The provider is not defined.')
 
-        self.session.set('user', user)
+        # Sample structure of "user"
+        # --------------------------
+        # {
+        #   'first_name': u'Koichi',
+        #   'claimed_id': u'https://www.google.com/accounts/o8/id?id=abcdef',
+        #   'name': u'Koichi Nakayama',
+        #   'locale': u'en',
+        #   'last_name': u'Nakayama',
+        #   'email': u'koichi@nakayama.jp'
+        # }
+
+        credential = credentials.filter_one(
+            name       = user['name'],
+            login      = user['email'],
+            provider   = provider.id
+        )
+
+        if not credential:
+            credential = credentials.new_document(
+                name       = user['name'],
+                login      = user['email'],
+                provider   = provider.id,
+                user       = None,
+                hash       = None,
+                salt       = None
+            )
+
+            credentials.post(credential)
+
+        access_pass = AccessPass(credential.id, credential.name, credential.alias, credential.login)
+
+        self.session.set('user', access_pass)
 
         self.redirect('/')
-
-    def rdb(self):
-        '''
-        :rtype: tori.db.service.DatabaseRepository
-        :return: the entity of the relational database repository
-        '''
-        return self.component('council.rdb')

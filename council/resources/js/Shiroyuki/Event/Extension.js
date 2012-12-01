@@ -11,42 +11,52 @@
  */
 define(
     'Shiroyuki/Event/Extension',
-    ['jquery'],
-    function ($) {
+    [],
+    function () {
         'use strict';
 
-        function EventControl() {}
+        var Extension = function () {};
 
-        $.extend(EventControl.prototype, {
-            identifier: null,
+        Extension.init = function (reference) {
+            reference.__eventIdentifier = null;
+        };
+
+        $.extend(Extension.prototype, {
+            Extension: function (reference) {
+                reference.__eventIdentifier = null;
+            },
+
             getIdentifier: function () {
-                if (this.identifier === null) {
+                if (this.__eventIdentifier === null) {
                     var d = new Date();
 
-                    this.identifier = d.getTime();
+                    this.__eventIdentifier = d.getTime();
                 }
 
-                return this.identifier;
+                return this.__eventIdentifier;
             },
 
             getFullEventKind: function (kind) {
                 return [this.getIdentifier(), kind].join('.');
             },
 
-            addEventListener: function (kind, listener) {
-                document.addEventListener(this.getFullEventKind(kind), listener);
+            addEventListener: function (kind, listener, scope) {
+                scope = scope || this;
+
+                document.addEventListener(this.getFullEventKind(kind), $.proxy(listener, scope), true);
             },
 
             dispatchEvent: function (kind, data) {
                 data = data || {};
 
                 var e = document.createEvent('CustomEvent');
-                e.initCustomEvent(this.getFullEventKind(kind), false, true, data);
+
+                e.initCustomEvent(this.getFullEventKind(kind), false, false, data);
 
                 document.dispatchEvent(e);
             }
         });
 
-        return EventControl;
+        return Extension;
     }
 );

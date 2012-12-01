@@ -1,72 +1,7 @@
-@import url('../widget/login.css');
+@import url('../widget/project-form.css');
+@import url('../widget/project-list.css');
 
-body {
-    line-height: normal;
-}
+@import url('_common.css');
 
-header {
-    -webkit-transition: all ease 200ms;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    text-align: left;
-}
-
-header .brand {
-    color: #ddd;
-}
-
-footer {
-    display: none;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-body > article {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    background: #ffffff; /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #eeeeee 100%); /* FF3.6+ */
-    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%,#eeeeee 100%); /* Chrome10+,Safari5.1+ */
-    background: -ms-radial-gradient(center, ellipse cover, #ffffff 0%,#eeeeee 100%); /* IE10+ */
-    background: radial-gradient(ellipse at center, #ffffff 0%,#eeeeee 100%); /* W3C */
-}
-
-body > article form.login {
-    display: none;
-}
-
-body[data-mode="login"] header {
-    top: auto;
-    bottom: 50%;
-}
-
-body[data-mode="login"] header .brand {
-    display: block;
-    text-transform: lowercase;
-    font-weight: 700;
-    font-size: 72px;
-    text-align: center;
-    color: #000;
-}
-
-body[data-mode="login"] form.login {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    display: block;
-    text-align: center;
-    padding-top: 20px;
-}
-
-body[data-mode="login"] form.login > :not(.oauth) {
-    display: none;
-}
+@import url('app/app.css');
+@import url('app/responsive.css');

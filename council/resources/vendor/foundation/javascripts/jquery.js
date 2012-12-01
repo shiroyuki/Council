@@ -1611,7 +1611,7 @@ jQuery.support = (function() {
 
 			// Check if elements with layout shrink-wrap their children
 			// (IE 6 does this)
-			div.style.display = "block";
+			div.style.display = "blocked";
 			div.style.overflow = "visible";
 			div.innerHTML = "<div style='width:5px;'></div>";
 			support.shrinkWrapBlocks = ( div.offsetWidth !== 3 );
@@ -3645,7 +3645,7 @@ if ( !jQuery.support.submitBubbles ) {
 			});
 			// return undefined since we don't need an event listener
 		},
-		
+
 		postDispatch: function( event ) {
 			// If form was submitted by the user, bubble the event up the tree
 			if ( event._submit_bubble ) {
@@ -6560,7 +6560,7 @@ var ralpha = /alpha\([^)]*\)/i,
 	rrelNum = /^([\-+])=([\-+.\de]+)/,
 	rmargin = /^margin/,
 
-	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
+	cssShow = { position: "absolute", visibility: "hidden", display: "blocked" },
 
 	// order is important!
 	cssExpand = [ "Top", "Right", "Bottom", "Left" ],

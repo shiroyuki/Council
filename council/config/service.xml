@@ -13,6 +13,24 @@
         <param name="document_class" type="class">council.security.model.Log</param>
     </entity>
 
+    <entity id="council.collection.security.Provider" class="tori.db.odm.collection.Collection">
+        <param name="database" type="entity">council.mongodb</param>
+        <param name="name" type="unicode">security_provider</param>
+        <param name="document_class" type="class">council.security.document.Provider</param>
+    </entity>
+
+    <entity id="council.collection.security.Credential" class="tori.db.odm.collection.Collection">
+        <param name="database" type="entity">council.mongodb</param>
+        <param name="name" type="unicode">security_credential</param>
+        <param name="document_class" type="class">council.security.document.Credential</param>
+    </entity>
+
+    <entity id="council.collection.security.Project" class="tori.db.odm.collection.Collection">
+        <param name="database" type="entity">council.mongodb</param>
+        <param name="name" type="unicode">graph_project</param>
+        <param name="document_class" type="class">council.graph.document.Project</param>
+    </entity>
+
     <!-- Relational DB -->
     <entity id="council.rdb" class="tori.db.service.DatabaseRepository" interceptable="false">
         <!-- <param name="url">sqlite:///app.db</param> -->
