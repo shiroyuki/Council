@@ -1,0 +1,226 @@
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800';
+form.api.rest.project input {
+  width: 95%; }
+form.api.rest.project textarea {
+  width: 95%;
+  max-width: 95%;
+  height: 60px;
+  max-height: 60px; }
+form.api.rest.project[method="put"] h1 {
+  background-color: #1693A5;
+  color: #fff; }
+
+.widget.project.list ul {
+  list-style: none;
+  margin: 20px;
+  padding: 0;
+  line-height: 0; }
+  .widget.project.list ul li {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    width: 240px;
+    margin: 0 1px 1px 0; }
+    .widget.project.list ul li a.retrieve {
+      position: relative;
+      display: block;
+      background-color: #eee;
+      height: 160px;
+      color: #000; }
+      .widget.project.list ul li a.retrieve .name {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: 50%;
+        letter-spacing: 1px;
+        font-size: 20px;
+        font-weight: 200; }
+      .widget.project.list ul li a.retrieve .description {
+        color: #999;
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 50%;
+        letter-spacing: 0px;
+        font-size: 12px;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-transform: uppercase; }
+    .widget.project.list ul li div.commands {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 120px;
+      width: 40px;
+      border-radius: 20px;
+      overflow: hidden; }
+      .widget.project.list ul li div.commands a {
+        display: block;
+        padding: 12px 13px;
+        text-align: center; }
+        .widget.project.list ul li div.commands a:hover {
+          background-color: #7FAF1B; }
+          .widget.project.list ul li div.commands a:hover i {
+            background-image: url("/v/b/img/glyphicons-halflings-white.png"); }
+        .widget.project.list ul li div.commands a:first-child {
+          border-radius: 20px;
+          border-top-right-radius: 0; }
+    .widget.project.list ul li.more-options div.commands {
+      bottom: 0;
+      background-color: #666;
+      border-left: 1px solid #fff;
+      border-radius: 0; }
+      .widget.project.list ul li.more-options div.commands a {
+        display: block; }
+        .widget.project.list ul li.more-options div.commands a i {
+          background-image: url("/v/b/img/glyphicons-halflings-white.png"); }
+        .widget.project.list ul li.more-options div.commands a:first-child {
+          border-radius: 0; }
+    .widget.project.list ul li.syncing a.retrieve {
+      background-color: #ddd; }
+    .widget.project.list ul li.new a.retrieve {
+      background-color: #D9FFA9; }
+    .widget.project.list ul li.deleted a.retrieve {
+      background-color: #FF9999; }
+    .widget.project.list ul li.no-description a.retrieve .name {
+      top: 50%;
+      margin-top: -10px; }
+    .widget.project.list ul li.no-description a.retrieve .description {
+      display: none; }
+
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
+input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  border-radius: 0;
+  border-width: 0 0 2px 0;
+  box-shadow: none; }
+
+textarea {
+  border-radius: 0;
+  border-width: 1px 1px 2px 1px; }
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus,
+input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus,
+input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, textarea:focus {
+  box-shadow: none; }
+
+form .form-actions {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none; }
+
+.btn {
+  border-radius: 0; }
+  .btn.btn-primary {
+    background: #1693A5; }
+
+.hidden {
+  display: none !important; }
+
+.animate, .widget.project.list ul li a.retrieve, .widget.project.list ul li div.commands, .widget.project.list ul li div.commands a, #underlayer, form.modal, form.api.rest.project {
+  -webkit-transition: all ease 250ms 100ms;
+  -moz-transition: all ease 250ms 100ms;
+  -o-transition: all ease 250ms 100ms;
+  transition: all ease 250ms 100ms; }
+
+.use-custom-fonts, h1, h2, h3, h4 {
+  font-family: 'Open Sans', 'Helvetica Neue', 'Arial', sans-serif; }
+
+.use-system-fonts, body {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif; }
+
+body {
+  line-height: normal; }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5px;
+  text-align: center; }
+
+a {
+  cursor: pointer; }
+
+#underlayer {
+  z-index: 1030;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+form.modal, form.api.rest.project {
+  position: fixed;
+  z-index: 1031;
+  left: 50%;
+  top: 150%;
+  opacity: 0;
+  margin-top: -25%;
+  margin-left: -160px;
+  width: 280px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px; }
+  form.modal h1, form.api.rest.project h1 {
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #CDD7B6;
+    margin: -20px -20px 10px -20px;
+    padding: 5px 20px; }
+  form.modal.visible, form.visible.api.rest.project {
+    top: 50%;
+    opacity: 1; }
+    form.modal.visible ~ #underlayer, form.visible.api.rest.project ~ #underlayer {
+      bottom: 0; }
+
+footer {
+  display: none; }
+
+header {
+  display: none; }
+
+#viewport {
+  margin-top: 40px; }
+  #viewport .commands {
+    line-height: normal; }
+
+nav.control.main .brand {
+  margin-left: 0; }
+
+aside .panel.user {
+  padding: 20px; }
+  aside .panel.user a {
+    text-decoration: none; }
+    aside .panel.user a .name {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 200;
+      letter-spacing: 1px;
+      padding-top: 15px;
+      vertical-align: top; }
+    aside .panel.user a .avatar {
+      display: inline-block;
+      margin-right: 20px;
+      background-color: #ff9900;
+      height: 60px; }
+
+/***** Media Query *****/
+@media (max-width: 979px) {
+  #viewport {
+    margin-top: 50px; }
+
+  nav.control.main.navbar-fixed-top {
+    position: fixed; } }
+@media (max-width: 767px) {
+  #viewport {
+    margin-left: -20px;
+    margin-right: -20px; }
+
+  nav.control.main.navbar-fixed-top {
+    margin: 0; } }

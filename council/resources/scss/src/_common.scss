@@ -1,0 +1,92 @@
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800';
+@import '_bootstrap.scss';
+
+$animation-speed: 250ms;
+$animation-delay: 100ms;
+
+.hidden {
+    display: none !important;
+}
+
+.animate {
+    -webkit-transition: all ease $animation-speed $animation-delay;
+    -moz-transition: all ease $animation-speed $animation-delay;
+    -o-transition: all ease $animation-speed $animation-delay;
+    transition: all ease $animation-speed $animation-delay;
+}
+
+.use-custom-fonts {
+    font-family: 'Open Sans', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.use-system-fonts {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+body {
+    @extend .use-system-fonts;
+
+    line-height: normal;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5px;
+    text-align: center;
+}
+
+h1, h2, h3, h4 {
+    @extend .use-custom-fonts;
+}
+
+a {
+    cursor: pointer;
+}
+
+#underlayer {
+    @extend .animate;
+
+    z-index: 1030;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+form.modal {
+    @extend .animate;
+
+    position: fixed;
+    z-index: 1031;
+    left: 50%;
+    top: 150%;
+    opacity: 0;
+    margin-top: -25%;
+    margin-left: -160px;
+    width: 280px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+
+    h1 {
+        font-size: 12px;
+        text-transform: uppercase;
+        background-color: #CDD7B6;
+        margin: -20px -20px 10px -20px;
+        padding: 5px 20px;
+    }
+
+    &.visible {
+        top: 50%;
+        opacity: 1;
+
+        ~ #underlayer {
+            bottom: 0;
+        }
+    }
+}

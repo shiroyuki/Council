@@ -41,6 +41,7 @@
 
         <resource location="resources/vendor" pattern="/v/(.+)" cache="false"/>
         <resource location="resources/css" pattern="/css/(.+)" cache="false"/>
+        <resource location="resources/scss/cc" pattern="/style/(.+)" cache="false"/>
         <resource location="resources/image" pattern="/image/(.+)" cache="false"/>
         <resource location="resources/js" pattern="/js/(.+)" cache="false"/>
     </routes>

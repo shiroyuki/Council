@@ -1,0 +1,5 @@
+$path: '/v/b';
+
+@mixin white-icon {
+    background-image: url("#{$path}/img/glyphicons-halflings-white.png");
+}

@@ -1,0 +1,35 @@
+@import '_config.scss';
+
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
+input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    border-radius: 0;
+    border-width: 0 0 2px 0;
+    box-shadow: none;
+}
+
+textarea {
+    border-radius: 0;
+    border-width: 1px 1px 2px 1px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus,
+input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus,
+input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, textarea:focus {
+    box-shadow: none;
+}
+
+form .form-actions {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.btn {
+    border-radius: 0;
+
+    &.btn-primary {
+        background: #1693A5;
+    }
+}

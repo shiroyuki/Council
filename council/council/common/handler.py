@@ -5,6 +5,7 @@ from tori.socket.rpc import Interface as BaseInterface
 class Controller(BaseController):
     @property
     def authenticated(self):
+        ''':rtype: council.security.document.Credential'''
         return self.session.get('user')
 
     def render_template(self, template_name, **contexts):

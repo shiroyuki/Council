@@ -1,3 +1,4 @@
+/*global $, define */
 /**
  * Asynchronous Form
  *
@@ -7,19 +8,19 @@
  *
  * @copyright 2012 Juti Noppornpitak
  * @author Juti Noppornpitak <jnopporn@shiroyuki.com>
- * @extends Shiroyuki/Event/Extension
+ * @extends Shiroyuki/Event/Target
  */
 define(
     'Shiroyuki/Async/Form',
     [
-        'Shiroyuki/Event/Extension',
+        'Shiroyuki/Event/Target',
         'Shiroyuki/Async/Request'
     ],
-    function (Extension, Request) {
+    function (EventTarget, Request) {
         'use strict';
 
         var Form = function ($form, isAsynchronous) {
-            Extension.init(this);
+            EventTarget.init(this);
 
             this.$form          = $form;
             this.isAsynchronous = isAsynchronous || true;
@@ -33,7 +34,7 @@ define(
                 .on('click', $.proxy(this.onReset, this));
         };
 
-        $.extend(Form.prototype, Extension.prototype, {
+        $.extend(Form.prototype, EventTarget.prototype, {
             getMethod: function () {
                 return this.$form.attr('method');
             },
@@ -55,18 +56,50 @@ define(
             },
 
             getData: function () {
-                var inputList = this.$form.find(this.inputSelector),
-                    //dataKeyValuePairList = [], // it is a 2D array to allow multiple data on a single key (array parameter)
-                    dataMap = {},
-                    inputElement;
+                var $inputList = this.$form.find(this.inputSelector),
+                    dataMap   = {},
+                    $input,
+                    value;
 
-                inputList.each(function (index) {
-                    inputElement = $(this);
+                $inputList.each(function (index) {
+                    $input = $(this);
 
-                    dataMap[inputElement.attr('name')] = inputElement.val();
+                    value = $input.val();
+
+                    if ($input.is(':checkbox') && !$input.is(':checked')) {
+                        value = null;
+                    }
+
+                    dataMap[$input.attr('name')] = value;
                 });
 
                 return dataMap;
+            },
+
+            setData: function (dataMap) {
+                var $inputList = this.$form.find(this.inputSelector),
+                    $input,
+                    inputName,
+                    value;
+
+                $inputList.each(function (index) {
+                    $input    = $(this);
+                    inputName = $input.attr('name');
+
+                    if (!dataMap.hasOwnProperty(inputName)) {
+                        return true;
+                    }
+
+                    value = dataMap[inputName];
+
+                    if ($input.is(':checkbox')) {
+                        value = Array.isArray(value) ? value : [value];
+                    }
+
+                    $input.val(value);
+
+                    return true;
+                });
             },
 
             isDisabled: function () {
@@ -79,9 +112,9 @@ define(
             onSubmit: function (event) {
                 var request,
                     userData = {
-                    preventDefault: false,
-                    form: this
-                };
+                        preventDefault: false,
+                        form: this
+                    };
 
                 if (this.isDisabled()) {
                     return this.dispatchEvent('disable', this);

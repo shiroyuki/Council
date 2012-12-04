@@ -16,6 +16,10 @@
 }
 
 .widget.project.list ul li a {
+    -webkit-transition: all ease 250ms 100ms;
+    -moz-transition: all ease 250ms 100ms;
+    transition: all ease 250ms 100ms;
+
     position: relative;
     display: block;
     background-color: #eee;
@@ -45,4 +49,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.widget.project.list ul li.syncing a {
+    background-color: #ddd;
+}
+
+.widget.project.list ul li.new a {
+    background-color: #D9FFA9;
+}
+
+.widget.project.list ul li.deleted a {
+    background-color: #FF9999;
 }

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block stylesheets %}
+    <!--
     <link rel="stylesheet" href="/css/page/index.css"/>
+    -->
+    <link rel="stylesheet" href="/style/page/index.css"/>
 {% endblock %}
 
 {% block navigation %}
@@ -13,17 +16,11 @@
 {% endblock %}
 
 {% block body %}
-    <aside class="span4">
-        <div class="panel user">
-            <a href="/users/{{ council.user.alias or council.user.id }}">
-                <img class="avatar" src="{{ council.user.gravatar }}"/>
-                <span class="name">{{ council.user.name }}</span>
-            </a>
-        </div>
-
-        {% include 'widget/project-form.html' %}
-    </aside>
-    <section class="span8">
-        {% include 'widget/project-list.html' %}
+    <section class="span12">
+        {% include 'widget/project/list.html' %}
     </section>
+
+    {% include 'widget/project/save-form.html' %}
+
+    <div id="underlayer"></div>
 {% endblock %}

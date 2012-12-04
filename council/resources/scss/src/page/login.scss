@@ -1,6 +1,5 @@
-@import url('../widget/login.css');
-
-@import url('_common.css');
+@import '../widget/login.scss';
+@import '../_common.css';
 
 header {
     position: absolute;
@@ -8,19 +7,19 @@ header {
     right: 0;
     bottom: 50%;
     background-color: transparent;
-}
 
-header .brand {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: block;
-    text-transform: lowercase;
-    font-weight: 700;
-    font-size: 36px;
-    text-align: center;
-    color: #000;
+    .brand {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: block;
+        text-transform: lowercase;
+        font-weight: 700;
+        font-size: 36px;
+        text-align: center;
+        color: #000;
+    }
 }
 
 body > article {
@@ -42,14 +41,14 @@ form.login {
     top: 50%;
     text-align: center;
     padding-top: 20px;
-}
 
-form.login > :not(.oauth) {
-    display: none;
-}
+    &> :not(.oauth) {
+        display: none;
+    }
 
-form.login > .oauth .btn {
-    line-height: normal;
+    &> .oauth .btn {
+        line-height: normal;
+    }
 }
 
 @media (max-width: 767px) {

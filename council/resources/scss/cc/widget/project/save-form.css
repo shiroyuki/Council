@@ -1,0 +1,10 @@
+form.api.rest.project input {
+  width: 95%; }
+form.api.rest.project textarea {
+  width: 95%;
+  max-width: 95%;
+  height: 60px;
+  max-height: 60px; }
+form.api.rest.project[method="put"] h1 {
+  background-color: #1693A5;
+  color: #fff; }

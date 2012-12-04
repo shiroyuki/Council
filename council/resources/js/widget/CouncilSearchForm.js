@@ -3,7 +3,7 @@ define(
     [
         'jquery',
         'Shiroyuki/Form',
-        'Shiroyuki/Event/Extension'
+        'Shiroyuki/Event/Target'
     ],
     function ($, Form, EventExtension) {
         'use strict';

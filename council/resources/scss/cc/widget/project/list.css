@@ -1,0 +1,79 @@
+.widget.project.list ul {
+  list-style: none;
+  margin: 20px;
+  padding: 0;
+  line-height: 0; }
+  .widget.project.list ul li {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+    width: 240px;
+    margin: 0 1px 1px 0; }
+    .widget.project.list ul li a.retrieve {
+      position: relative;
+      display: block;
+      background-color: #eee;
+      height: 160px;
+      color: #000; }
+      .widget.project.list ul li a.retrieve .name {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: 50%;
+        letter-spacing: 1px;
+        font-size: 20px;
+        font-weight: 200; }
+      .widget.project.list ul li a.retrieve .description {
+        color: #999;
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 50%;
+        letter-spacing: 0px;
+        font-size: 12px;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-transform: uppercase; }
+    .widget.project.list ul li div.commands {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 120px;
+      width: 40px;
+      border-radius: 20px;
+      overflow: hidden; }
+      .widget.project.list ul li div.commands a {
+        display: block;
+        padding: 12px 13px;
+        text-align: center; }
+        .widget.project.list ul li div.commands a:hover {
+          background-color: #7FAF1B; }
+          .widget.project.list ul li div.commands a:hover i {
+            background-image: url("/v/b/img/glyphicons-halflings-white.png"); }
+        .widget.project.list ul li div.commands a:first-child {
+          border-radius: 20px;
+          border-top-right-radius: 0; }
+    .widget.project.list ul li.more-options div.commands {
+      bottom: 0;
+      background-color: #666;
+      border-left: 1px solid #fff;
+      border-radius: 0; }
+      .widget.project.list ul li.more-options div.commands a {
+        display: block; }
+        .widget.project.list ul li.more-options div.commands a i {
+          background-image: url("/v/b/img/glyphicons-halflings-white.png"); }
+        .widget.project.list ul li.more-options div.commands a:first-child {
+          border-radius: 0; }
+    .widget.project.list ul li.syncing a.retrieve {
+      background-color: #ddd; }
+    .widget.project.list ul li.new a.retrieve {
+      background-color: #D9FFA9; }
+    .widget.project.list ul li.deleted a.retrieve {
+      background-color: #FF9999; }
+    .widget.project.list ul li.no-description a.retrieve .name {
+      top: 50%;
+      margin-top: -10px; }
+    .widget.project.list ul li.no-description a.retrieve .description {
+      display: none; }

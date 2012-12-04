@@ -42,12 +42,12 @@ aside .panel.user .avatar {
     height: 60px;
 }
 
-aside form.api.rest.project {
+form.api.rest.project {
     display: none;
     padding: 20px;
     border-top: 3px solid #eee;
 }
 
-aside form.api.rest.project h1 {
+form.api.rest.project h1 {
     display: none;
 }

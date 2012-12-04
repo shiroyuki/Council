@@ -3,7 +3,7 @@ define(
     'Shiroyuki/Sync/Socket',
     [
         'jquery',
-        'Shiroyuki/Event/Extension'
+        'Shiroyuki/Event/Target'
     ],
     function ($, Extension) {
         'use strict';

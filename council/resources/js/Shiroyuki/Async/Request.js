@@ -1,7 +1,7 @@
 define(
     'Shiroyuki/Async/Request',
     [
-        'Shiroyuki/Event/Extension'
+        'Shiroyuki/Event/Target'
     ],
     function (Extension) {
         'use strict';
