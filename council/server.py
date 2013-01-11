@@ -4,7 +4,6 @@ from logging import WARNING
 from tori.application import Application
 from tori.common      import LoggerFactory
 
-from council.security.model import Log
 import fixtures
 
 LoggerFactory.instance().set_default_level(WARNING)

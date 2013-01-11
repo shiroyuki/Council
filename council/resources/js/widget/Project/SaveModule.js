@@ -3,19 +3,21 @@ define(
     'Widget/Project/SaveModule',
     [
         'Shiroyuki/Event/Target',
-        'Shiroyuki/Async/Request'
+        'Shiroyuki/Async/Request',
+        'Service/API/Project'
     ],
-    function (EventTarget, Request) {
+    function (EventTarget, Request, ProjectRepository) {
         'use strict';
 
         var Module = function (form) {
             EventTarget.init(this);
 
-            this.form    = form;
-            this.baseUri = '/api/projects/';
+            this.form = form;
 
             this.form.addEventListener('success', this.onFormSubmitSuccess, this);
             this.form.addEventListener('reset', this.onFormCancel, this);
+
+            ProjectRepository.addEventListener('get.success', this.onRetrieveSuccess, this);
 
             this.addEventListener('edit.prompt', this.onEditPrompt, this);
             this.addEventListener('create.prompt', this.onCreatePrompt, this);
@@ -34,7 +36,7 @@ define(
             getUrl: function (id) {
                 id = id || '';
 
-                return this.baseUri + id;
+                return ProjectRepository.getBaseUrl() + id;
             },
 
             onCreatePrompt: function (event) {
@@ -47,16 +49,10 @@ define(
             },
 
             onEditPrompt: function (event) {
-                var request = new Request(this.getUrl(event.detail.id));
-
-                request.setResponseType('json');
-                request.addEventListener('success', this.onRetrieveSuccess, this);
-
-                request.send();
+                ProjectRepository.get(event.detail.id);
             },
 
             onDeactivate: function (event) {
-                this.onDeactivate
             },
 
             onRetrieveSuccess: function (event) {

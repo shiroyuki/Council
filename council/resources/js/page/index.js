@@ -26,7 +26,7 @@ define(
         var Page = function ($context) {
             Distributor.init(this);
 
-            EventTarget.debug = true;
+            EventTarget.debug = false;
 
             // Prevent highlighting.
             $context.on('mousedown', 'a.btn, nav a, .commands a', function (event) { event.preventDefault(); });

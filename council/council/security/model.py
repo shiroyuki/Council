@@ -2,7 +2,6 @@ from sqlalchemy     import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from tori.db.entity import Entity
-from tori.db.odm.document import document, Document
 
 from council.user.model import User
 
@@ -31,9 +30,3 @@ class Credential(Entity):
     def __unicode__(self):
         return u'%s/%s' % (self.provider.name, self.login)
 
-@document
-class Log(object):
-    def __init__(self, kind, content, _id=None):
-        self.id      = _id
-        self.kind    = kind
-        self.content = content

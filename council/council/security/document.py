@@ -1,6 +1,7 @@
 from hashlib import md5
 
-from tori.db.odm.document import document, Document
+from tori.db.document import  BaseDocument
+from tori.db.document import document
 
 class AccessPass(object):
     def __init__(self, id, name, alias, email):
@@ -42,9 +43,9 @@ class AccessPass(object):
             'email': self._email
         }
 
-@document
+@document('security_provider')
 class Provider(object):
-    def __init__(self, name, _id):
+    def __init__(self, name, _id=None):
         '''
         Constructor
 
@@ -55,8 +56,8 @@ class Provider(object):
         self._id  = _id
         self.name = name
 
-@document
-class Credential(Document):
+@document('security_credential')
+class Credential(BaseDocument):
     def __init__(self, login, hash, salt, provider, user, **attributes):
         '''
         Constructor
@@ -76,7 +77,7 @@ class Credential(Document):
         :return:
         '''
 
-        Document.__init__(self, **attributes)
+        BaseDocument.__init__(self, **attributes)
 
         self.login    = login
         self.hash     = hash

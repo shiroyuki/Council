@@ -1,4 +1,0 @@
-form[action="#council/query"] button.new,
-form[action="#council/query"] button[type="reset"] {
-    display: none;
-}

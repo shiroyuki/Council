@@ -4,9 +4,10 @@ define(
     [
         'Shiroyuki/Async/Request',
         'Shiroyuki/Event/Target',
-        'Shiroyuki/Helper/TemplateLoader'
+        'Shiroyuki/Helper/TemplateLoader',
+        'Service/API/Project'
     ],
-    function (Request, Extension, TemplateLoader) {
+    function (Request, Extension, TemplateLoader, ProjectRepository) {
         'use strict';
 
         var Module = function (context) {
@@ -15,17 +16,32 @@ define(
             this.initiated      = false;
             this.context        = context;
             this.templateLoader = new TemplateLoader(this.context);
-            this.listUrl        = '/api/projects/';
-            this.deleteBaseUrl  = '/api/projects/';
+
+            this.cacheRepository = {};
 
             this.addEventListener('update', this.onUpdate, this);
+            this.addEventListener('retrieve', this.onRetrieve, this);
+
+            ProjectRepository.addEventListener('filter.success', this.onUpdateSuccess, this);
+            ProjectRepository.addEventListener('filter.error', this.onUpdateError, this);
+            ProjectRepository.addEventListener('delete.success', this.onDeleteSuccess, this);
 
             this.context.on('click', 'a.options', this.onOptionsClick);
             this.context.on('click', 'a.edit', $.proxy(this.onEditClick, this));
             this.context.on('click', 'a.delete', $.proxy(this.onDeleteClick, this));
+
+            this.context.on('click', 'a.retrieve', $.proxy(this.onRetrieveClick, this));
         };
 
         $.extend(Module.prototype, Extension.prototype, {
+            onRetrieveClick: function (event) {
+                var $node = $(event.currentTarget).closest('li[data-guid]'),
+                    node,
+                    id = $node.attr('data-guid');
+
+                event.preventDefault();
+            },
+
             onOptionsClick: function (event) {
                 $(this).closest('li').toggleClass('more-options');
             },
@@ -35,22 +51,11 @@ define(
             },
 
             synchronise: function () {
-                var request = new Request(this.listUrl);
-
-                request.setResponseType('json');
-                request.addEventListener('success', this.onUpdateSuccess, this);
-                request.addEventListener('error', this.onUpdateError, this);
-
-                request.send();
+                ProjectRepository.filter();
             },
 
             remove: function (id) {
-                var request = new Request(this.deleteBaseUrl + id, 'delete');
-
-                request.setResponseType('json');
-                request.addEventListener('success', this.onDeleteSuccess, this);
-
-                request.send();
+                ProjectRepository.remove(id);
             },
 
             onDeleteSuccess: function (event) {
@@ -74,15 +79,14 @@ define(
             },
 
             onUpdateError: function (event) {
-                console.log(event.detail);
+                // console.log(event.detail);
             },
 
             onUpdateSuccess: function (event) {
                 var i,
                     l,
+                    project,
                     projects = event.detail.response;
-
-                console.log(projects);
 
                 this.context
                     .find('li[data-guid]')
@@ -90,7 +94,12 @@ define(
                     .removeClass('new');
 
                 for (i = 0, l = projects.length; i < l; i += 1) {
-                    this.addOrUpdateListItem(projects[i]);
+                    project = projects[i];
+
+                    this.cacheRepository[project.id] = project;
+
+                    this.addOrUpdateListItem(project);
+
                 }
 
                 this.context
@@ -118,13 +127,9 @@ define(
             },
 
             createNode: function (project) {
-                var $node           = this.templateLoader.loadBlock('list-item'),
-                    $retrivalAnchor = $node.children('a.retrieve'),
-                    url             = $retrivalAnchor.attr('data-href').replace(/\{id\}/, project.id);
+                var $node = this.templateLoader.loadBlock('list-item');
 
                 $node.attr('data-guid', project.id);
-
-                $retrivalAnchor.attr('href', url);
 
                 if (this.initiated) {
                     $node.addClass('new');

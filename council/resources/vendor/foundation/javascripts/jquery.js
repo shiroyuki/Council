@@ -1876,7 +1876,7 @@ jQuery.extend({
 		// false lookups in the cache for entries that no longer exist
 		if ( isNode ) {
 			// IE does not allow us to delete expando properties from nodes,
-			// nor does it have a removeAttribute function on Document nodes;
+			// nor does it have a removeAttribute function on BaseDocument nodes;
 			// we must handle all of these cases
 			if ( jQuery.support.deleteExpando ) {
 				delete elem[ internalKey ];
@@ -7006,10 +7006,10 @@ var r20 = /%20/g,
 	 */
 	transports = {},
 
-	// Document location
+	// BaseDocument location
 	ajaxLocation,
 
-	// Document location segments
+	// BaseDocument location segments
 	ajaxLocParts,
 
 	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression

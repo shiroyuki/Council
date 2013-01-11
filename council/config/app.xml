@@ -14,9 +14,9 @@
             pattern="/v/f/(.+)"
             cache="true"/>-->
 
-        <resource
-            location="/Users/jnopporn/tmp/Archive.zip"
-            pattern="/t/a.zip"
+        <redirection
+            destination="http://shiroyuki.com/favicon.ico"
+            pattern="/favicon.ico"
             cache="true"/>
 
         <resource
