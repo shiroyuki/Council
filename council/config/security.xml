@@ -16,23 +16,18 @@
         <controller class="council.controller.Home" pattern="/"/>
 
         <controller
-                class="council.security.controller.LogoutHandler"
-                pattern="/logout"
-                />
+            class="council.security.controller.LogoutHandler"
+            pattern="/logout"
+        />
 
         <controller
-                class="council.security.controller.LocalHandler"
-                pattern="/login/local"
-                />
+            class="council.security.controller.MockHandler"
+            pattern="/login/mock"
+        />
 
         <controller
-                class="council.security.controller.MockHandler"
-                pattern="/login/mock"
-                />
-
-        <controller
-                class="council.security.controller.GoogleHandler"
-                pattern="/login/google"
-                />
+            class="council.security.controller.GoogleHandler"
+            pattern="/login/google"
+        />
     </routes>
 </application>

@@ -3,36 +3,8 @@
     <!-- See the documentation of Imagination at http://shiroyuki.com/work/project-imagination. -->
 
     <!-- MongoDB -->
-    <entity id="council.mongodb" class="tori.db.database.Database">
-        <param name="name" type="unicode">council_dev</param>
+    <entity id="entity_manager" class="tori.db.manager.Manager">
+        <param name="name" type="str">council_dev</param>
     </entity>
-
-    <entity id="council.collection.security.Provider" class="tori.db.collection.Collection">
-        <param name="database" type="entity">council.mongodb</param>
-        <param name="document_class" type="class">council.security.document.Provider</param>
-    </entity>
-
-    <entity id="council.collection.security.Credential" class="tori.db.collection.Collection">
-        <param name="database" type="entity">council.mongodb</param>
-        <param name="document_class" type="class">council.security.document.Credential</param>
-    </entity>
-
-    <entity id="council.collection.security.Project" class="tori.db.collection.Collection">
-        <param name="database" type="entity">council.mongodb</param>
-        <param name="document_class" type="class">council.graph.document.Project</param>
-    </entity>
-
-    <!-- Relational DB -->
-    <!--
-    <entity id="council.rdb" class="tori.db.repository.DatabaseRepository" interceptable="false">
-        <param name="echo" type="bool">False</param>
-    </entity>
-
-    <entity id="council.service.authentication" class="council.security.service.AccessControl">
-        <param name="database_repository" type="entity">council.rdb</param>
-    </entity>
-    -->
-
-    <!--<entity id="session" class="tori.session.repository.memory.Memory"/>-->
     <entity id="session" class="tori.session.repository.xredis.Redis"/>
 </imagination>

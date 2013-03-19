@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from tori.decorator.controller import renderer
-
 from council.common.handler import Controller
-from council.security.service import AccessPass
 
 @renderer('council.view')
 class Home(Controller):

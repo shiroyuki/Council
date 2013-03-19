@@ -1,8 +1,8 @@
-from tornado.auth    import GoogleMixin
-from tornado.web     import asynchronous, HTTPError
+from tornado.auth import GoogleMixin
+from tornado.web  import asynchronous, HTTPError
 
 from council.common.handler     import Controller
-from council.security.document  import AccessPass
+from council.security.entity    import Credential, Provider
 from council.security.exception import ControllerException
 
 class LogoutHandler(Controller):
@@ -11,34 +11,61 @@ class LogoutHandler(Controller):
 
         self.redirect('/')
 
-class LocalHandler(Controller):
-    def post(self):
-        key      = self.get_argument('key')
-        password = self.get_argument('password')
+class BaseLoginHandler(Controller):
+    def open_unsupervised_db_session(self):
+        return self.component('entity_manager').open_session(supervised=False)
 
-        if self.authenticated:
-            return self.redirect('/')
+    def get_provider_name(self):
+        raise NotImplement()
 
-        access_pass = self\
-            .component('council.security.service.authentication')\
-            .authenticate(key, password)
+    def handle_authentication_response(self, data):
+        if not data:
+            self.redirect('/login/{}/e401'.format(self.get_provider_name()))
 
-        if not access_pass:
-            return self.redirect('/login')
+            return
+
+        session     = self.open_unsupervised_db_session()
+        providers   = session.collection(Provider)
+        credentials = session.collection(Credential)
+        provider    = providers.filter_one({'name': self.get_provider_name()})
+
+        if not provider:
+            raise RuntimeError('The provider is not defined.')
+
+        credential = credentials.filter_one({
+            'name':     data['name'],
+            'login':    data['email'],
+            'provider': provider.id
+        })
+
+        if not credential:
+            credential = credentials.new(
+                name     = data['name'],
+                login    = data['email'],
+                provider = provider.id,
+                user     = None,
+                hash     = None,
+                salt     = None
+            )
+
+            credentials.post(credential)
+
+        access_pass = {
+            'id':    credential.id,
+            'name':  credential.name,
+            'alias': credential.alias,
+            'login': credential.login
+        }
 
         self.session.set('user', access_pass)
 
-class MockHandler(Controller):
+        self.redirect('/')
+
+class MockHandler(BaseLoginHandler):
+    def get_provider_name(self):
+        return 'Dev'
+
     def get(self):
-
-        credentials = self.component('council.collection.security.Credential')
-        ''' :type credentials: tori.db.odm.collection.Collection '''
-
-        providers = self.component('council.collection.security.Provider')
-        ''' :type providers: tori.db.odm.collection.Collection '''
-
-        provider = providers.filter_one(name='Google')
-
         user = {
             'first_name': u'Koichi',
             'claimed_id': u'https://www.google.com/accounts/o8/id?id=abcdef',
@@ -48,31 +75,7 @@ class MockHandler(Controller):
             'email': u'koichi@nakayama.jp'
         }
 
-        credential = credentials.filter_one(
-            name       = user['name'],
-            login      = user['email'],
-            provider   = provider.id
-        )
-
-        if not credential:
-            credential = credentials.new_document(
-                name       = user['name'],
-                login      = user['email'],
-                provider   = provider.id,
-                user       = None,
-                hash       = None,
-                salt       = None
-            )
-
-            credentials.post(credential)
-
-        access_pass = AccessPass(credential.id, credential.name, credential.alias, credential.login)
-
-        self.session.set('user', access_pass)
-
-        self.redirect('/')
-
-class GoogleHandler(Controller, GoogleMixin):
+class GoogleHandler(BaseLoginHandler, GoogleMixin):
     @asynchronous
     def get(self):
         if self.get_argument("openid.mode", None):
@@ -82,23 +85,10 @@ class GoogleHandler(Controller, GoogleMixin):
 
         self.authenticate_redirect()
 
-    def _on_auth(self, user):
-        credentials = self.component('council.collection.security.Credential')
-        ''' :type credentials: tori.db.odm.collection.Collection '''
+    def get_provider_name(self):
+        return 'Google'
 
-        providers = self.component('council.collection.security.Provider')
-        ''' :type providers: tori.db.odm.collection.Collection '''
-
-        if not user:
-            self.redirect('/login/google/e403')
-
-            return
-
-        provider = providers.filter_one(name='Google')
-
-        if not provider:
-            raise ControllerException('The provider is not defined.')
-
+    def _on_auth(self, data):
         # Sample structure of "user"
         # --------------------------
         # {
@@ -110,26 +100,4 @@ class GoogleHandler(Controller, GoogleMixin):
         #   'email': u'koichi@nakayama.jp'
         # }
 
-        credential = credentials.filter_one(
-            name       = user['name'],
-            login      = user['email'],
-            provider   = provider.id
-        )
-
-        if not credential:
-            credential = credentials.new_document(
-                name       = user['name'],
-                login      = user['email'],
-                provider   = provider.id,
-                user       = None,
-                hash       = None,
-                salt       = None
-            )
-
-            credentials.post(credential)
-
-        access_pass = AccessPass(credential.id, credential.name, credential.alias, credential.login)
-
-        self.session.set('user', access_pass)
-
-        self.redirect('/')
+        self.handle_authentication_response(data)

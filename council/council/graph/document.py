@@ -1,9 +1,8 @@
-from tori.db.document import document
+from tori.db.entity import entity
 
-@document('graph_project')
+@entity('council_graph_project')
 class Project(object):
-    def __init__(self, name, leader, description='', public=False, _id=None):
-        self._id         = _id
+    def __init__(self, name, leader, description='', public=False):
         self.name        = name
         self.description = description
         self.public      = public

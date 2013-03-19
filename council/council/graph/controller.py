@@ -1,9 +1,6 @@
 import json
-
 from tornado.web import HTTPError
-
-from tori.data.converter import ArrayConverter
-
+from tori.data.serializer import ArraySerializer
 from council.common.handler import RestController
 from council.graph.document import Project
 
@@ -26,10 +23,10 @@ class ProjectController(RestController):
     def data_converter(self):
         '''Data-to-array Converter
 
-        :rtype: tori.data.converter.ArrayConverter
+        :rtype: tori.data.serializer.ArraySerializer
         '''
         if not self.__data_converter:
-            self.__data_converter = ArrayConverter()
+            self.__data_converter = ArraySerializer()
             self.__data_converter.set_max_depth(10)
 
         return self.__data_converter

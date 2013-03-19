@@ -1,6 +1,6 @@
-from tori.controller import Controller as BaseController
+from tori.controller import Controller     as BaseController
 from tori.controller import RestController as BaseRestController
-from tori.socket.rpc import Interface as BaseInterface
+from tori.socket.rpc import Interface      as BaseInterface
 
 class Controller(BaseController):
     @property

@@ -1,46 +1,35 @@
 # -*- coding: utf-8 -*-
 
-from tori.centre      import services
-from tori.db.fixture  import Fixture
+from tori.centre     import services
+from tori.db.fixture import Fixture
+from council.security.entity import Provider
 
 def auto_load():
-    repository = services.get('council.rdb')
-    fixture    = Fixture(repository)
+    dataset = [
+        (
+            Provider,
+            {
+                'dev': { '_id': 1, 'name': 'Dev' },
+                'google': { '_id': 2, 'name': 'Google' }
+            }
+        )
+    ]
 
-    fixture.set(
-        'council.security.model.Provider',
-        {
-            'local': { 'id': 1, 'name': 'Local' },
-            'google': { 'id': 2, 'name': 'Google' }
-        }
-    )
+    manager = services.get('entity_manager')
+    session = manager.open_session(supervised=False)
 
-    try:
-        if repository.reflect():
-            fixture.load()
-    except:
-        pass
+    for entity_class, fixtures in dataset:
+        repository = session.collection(entity_class)
 
-def auto_load_mongodb():
-    dataset = {
-        'council.collection.security.Provider': {
-            #'local': { '_id': 1, 'name': 'Local' },
-            'google': { '_id': 2, 'name': 'Google' }
-        }
-    }
+        for alias in fixtures:
+            criteria = fixtures[alias]
+            entity   = repository.filter_one(criteria)
 
-    for service_id in dataset:
-        repository = services.get(service_id)
-        ''' :type repository: tori.db.odm.collection.Collection '''
+            if entity:
+                continue
 
-        for alias in dataset[service_id]:
-            criteria = dataset[service_id][alias]
+            entity = repository.new(**criteria)
 
-            entity = repository.filter_one(**criteria)
-
-            if not entity:
-                entity = repository.new_document(**criteria)
-
-                repository.post(entity)
-
-            pass
+            repository.post(entity)
+        # endfor
+    # endfor
