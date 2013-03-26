@@ -16,13 +16,19 @@
         <controller class="council.controller.Home" pattern="/"/>
 
         <controller
+            class="council.user.controller.RegistrationHandler"
+            pattern="/registration"
+        />
+
+        <controller
             class="council.security.controller.LogoutHandler"
             pattern="/logout"
         />
 
         <controller
             class="council.security.controller.MockHandler"
-            pattern="/login/mock"
+            pattern="/login/dev/{alias}"
+            regexp="false"
         />
 
         <controller

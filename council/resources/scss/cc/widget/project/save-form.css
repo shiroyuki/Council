@@ -1,10 +1,117 @@
-form.api.rest.project input {
-  width: 95%; }
-form.api.rest.project textarea {
-  width: 95%;
-  max-width: 95%;
-  height: 60px;
-  max-height: 60px; }
-form.api.rest.project[method="put"] h1 {
-  background-color: #1693A5;
-  color: #fff; }
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800';
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"],
+input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  border-radius: 0;
+  border-width: 0 0 2px 0;
+  box-shadow: none; }
+
+textarea {
+  border-radius: 0;
+  border-width: 1px 1px 2px 1px; }
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus,
+input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus,
+input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, textarea:focus {
+  box-shadow: none; }
+
+form .form-actions {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none; }
+
+.btn {
+  border-radius: 0; }
+  .btn[data-toggle] {
+    border-radius: 0; }
+
+.btn-group > .dropdown-menu {
+  border-radius: 0;
+  padding: 0;
+  margin: -1px 0 0 0; }
+.btn-group > .btn:first-child {
+  border-radius: 0; }
+
+.btn-group.open > .dropdown-menu {
+  text-align: left;
+  border: none;
+  background: #666; }
+  .btn-group.open > .dropdown-menu a {
+    color: #fff; }
+.btn-group.open > .btn {
+  background: #666 !important; }
+
+.hidden {
+  display: none !important; }
+
+.use-custom-fonts, h1, h2, h3, h4 {
+  font-family: 'Open Sans', 'Helvetica Neue', 'Arial', sans-serif; }
+
+.use-system-fonts, body {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif; }
+
+body {
+  line-height: normal; }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5px;
+  text-align: center; }
+
+a {
+  cursor: pointer; }
+
+#underlayer {
+  -webkit-transition: all ease 250ms 100ms;
+  -moz-transition: all ease 250ms 100ms;
+  -o-transition: all ease 250ms 100ms;
+  transition: all ease 250ms 100ms;
+  z-index: 1030;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+form.api.rest.project {
+  -webkit-transition: all ease 250ms 100ms;
+  -moz-transition: all ease 250ms 100ms;
+  -o-transition: all ease 250ms 100ms;
+  transition: all ease 250ms 100ms;
+  position: fixed;
+  z-index: 1031;
+  left: 50%;
+  top: 150%;
+  opacity: 0;
+  margin-top: -25%;
+  margin-left: -160px;
+  width: 280px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px; }
+  form.api.rest.project h1 {
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #CDD7B6;
+    margin: -20px -20px 10px -20px;
+    padding: 5px 20px; }
+  form.api.rest.project.visible {
+    top: 50%;
+    opacity: 1; }
+    form.api.rest.project.visible ~ #underlayer {
+      bottom: 0; }
+  form.api.rest.project input {
+    width: 95%; }
+  form.api.rest.project textarea {
+    width: 95%;
+    max-width: 95%;
+    height: 60px;
+    max-height: 60px; }
+  form.api.rest.project[method="put"] h1 {
+    background-color: #1693A5;
+    color: #fff; }

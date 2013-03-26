@@ -1,16 +1,28 @@
 <form action="{{ app.request.uri }}/local" method="post" class="form login">
-    <div class="control-groups">
-        <label>E-mail address</label>
-        <input name="key" type="email" placeholder="E-mail address"/>
-    </div>
-    <div class="control-groups">
-        <label>Password</label>
-        <input name="password" type="Password" placeholder="Password"/>
-    </div>
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Log in</button>
-    </div>
+    {% if local_enabled %}
+        <div class="control-groups">
+            <label>E-mail address</label>
+            <input name="key" type="email" placeholder="E-mail address"/>
+        </div>
+        <div class="control-groups">
+            <label>Password</label>
+            <input name="password" type="Password" placeholder="Password"/>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+    {% endif %}
     <div class="oauth">
-        <a href="/login/google" class="btn"><i class="icon-user"></i> Log in with Google ID</a>
+        <div class="btn-group">
+            <button class="btn dev dropdown-toggle" data-toggle="dropdown">Log in as ...</button>
+            <ul class="dropdown-menu">
+                <li><a href="/login/dev/kanata">Kanata Iwata (Admin)</a></li>
+                <li><a href="/login/dev/koichi">Koichi Nakayama (Committee)</a></li>
+                <li><a href="/login/dev/meru">Mitsuzaki Umi</a></li>
+                <li><a href="/login/dev/shun">Kazama Shun</a></li>
+                <li><a href="/login/dev/shirou">Mizunuma Shirou</a></li>
+            </ul>
+        </div>
+        <a href="/login/google" class="btn google">Log in with Google ID</a>
     </div>
 </form>

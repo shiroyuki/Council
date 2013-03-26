@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from logging import WARNING
+from logging import DEBUG, INFO, WARNING
 
 from tori.application import Application
 from tori.common      import LoggerFactory
 
 import fixtures
 
-LoggerFactory.instance().set_default_level(WARNING)
+LoggerFactory.instance().set_default_level(INFO)
 
 application = Application('config/app.xml')
 

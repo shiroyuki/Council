@@ -1,4 +1,5 @@
-@import '../../_config.scss';
+@import '../../config',
+        '../../common';
 
 .widget.project.list {
     ul {
@@ -15,7 +16,7 @@
             margin: 0 20px 20px 0;
 
             a.retrieve {
-                @extend .animate;
+                @include animate;
 
                 position: relative;
                 display: block;
@@ -50,7 +51,7 @@
             }
 
             div.commands {
-                @extend .animate;
+                @include animate;
 
                 position: absolute;
                 top: 0;
@@ -61,7 +62,7 @@
                 overflow: hidden;
 
                 a {
-                    @extend .animate;
+                    @include animate;
 
                     display: block;
                     padding: 12px 13px;

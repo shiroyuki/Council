@@ -1,5 +1,7 @@
+@import '../../common';
+
 form.api.rest.project {
-    @extend form.modal;
+    @include form-modal;
 
     input {
         width: 95%;

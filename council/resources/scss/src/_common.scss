@@ -1,5 +1,5 @@
 @import 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800';
-@import '_bootstrap.scss';
+@import 'bootstrap';
 
 $animation-speed: 250ms;
 $animation-delay: 100ms;
@@ -8,7 +8,7 @@ $animation-delay: 100ms;
     display: none !important;
 }
 
-.animate {
+@mixin animate {
     -webkit-transition: all ease $animation-speed $animation-delay;
     -moz-transition: all ease $animation-speed $animation-delay;
     -o-transition: all ease $animation-speed $animation-delay;
@@ -47,7 +47,7 @@ a {
 }
 
 #underlayer {
-    @extend .animate;
+    @include animate;
 
     z-index: 1030;
     position: fixed;
@@ -58,8 +58,8 @@ a {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-form.modal {
-    @extend .animate;
+@mixin form-modal {
+    @include animate;
 
     position: fixed;
     z-index: 1031;

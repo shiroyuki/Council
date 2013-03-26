@@ -1,9 +1,5 @@
-@import '../widget/login.scss',
-        '../_common.css';
-
-.btn {
-    border-radius: 0;
-}
+@import '../common',
+        '../widget/login';
 
 header {
     position: absolute;
@@ -60,8 +56,24 @@ form.login {
         display: none;
     }
 
-    &> .oauth .btn {
-        line-height: normal;
+    &> .oauth {
+        .btn-group {
+            display: inline-block;
+        }
+
+        .btn {
+            line-height: normal;
+            text-shadow: none;
+            color: #fff;
+
+            &.google {
+                background: #33B5E5;
+            }
+
+            &.dev {
+                background: #FF4444;
+            }
+        }
     }
 }
 

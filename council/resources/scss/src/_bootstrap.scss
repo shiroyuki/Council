@@ -29,7 +29,35 @@ form .form-actions {
 .btn {
     border-radius: 0;
 
-    &.btn-primary {
-        background: #1693A5;
+    &[data-toggle] {
+        border-radius: 0;
+    }
+}
+
+.btn-group {
+    &> .dropdown-menu {
+        border-radius: 0;
+        padding: 0;
+        margin: -1px 0 0 0;
+    }
+
+    &> .btn:first-child {
+        border-radius: 0;
+    }
+}
+
+.btn-group.open {
+    &> .dropdown-menu {
+        text-align: left;
+        border: none;
+        background: #666;
+
+        a {
+            color: #fff;
+        }
+    }
+
+    &> .btn {
+        background: #666 !important;
     }
 }
