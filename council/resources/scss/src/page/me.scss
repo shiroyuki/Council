@@ -1,0 +1,84 @@
+@import
+    '../common',
+    '../app/app'
+;
+
+#viewport {
+    padding-top: 20px;
+    padding-bottom: 80px;
+}
+
+.connected-id-list {
+    padding-top: 14px;
+
+    & > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        [class*="credential"] {
+            display: block;
+            border-bottom: 1px solid #ddd;
+            margin-left: 0 !important;
+
+            a {
+                color: #333;
+
+                i {
+                    margin-right: 5px;
+                    color: #FFBB33;
+                }
+            }
+
+            & > a {
+                font-size: 16px;
+                display: block;
+                padding: 10px;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            .options {
+                text-shadow: #000 0 0 1px;
+                border-top: 1px dashed #fff;
+                right: 0;
+
+                [class*="option-"] {
+                    font-size: 16px;
+                    padding: 10px 10px;
+                }
+            }
+
+            &.open > a {
+                border-radius: 0;
+                background-color: #666;
+                color: #fff;
+            }
+
+            &.credential-new {
+                border: 1px dashed #ddd;
+
+                & > a i {
+                    color: #0099CC;
+                }
+                
+                & .option-dev {
+                    cursor: not-allowed;
+                }
+
+                & + .credential {
+                    border-top: 1px solid #ddd;
+                    margin-top: 5px;
+                }
+                
+                &.open {
+                    border-top: none;
+                    border-left: none;
+                    border-right: none;
+                }
+            }
+        }
+    }
+}

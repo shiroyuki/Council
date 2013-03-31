@@ -3,21 +3,12 @@
     <server>
         <!-- Secret salt for secure-cookie feature -->
         <secret></secret>
-        <!-- Uncomment below to enable custom error controller -->
-        <!-- <error>app.web.controller.ErrorController</error> -->
     </server>
     <routes>
-        <!-- Example for routing. See the documentation for more information. -->
-        <!--
-            <controller class="app.web.controller.Home"    pattern="/"/>
-            <controller class="app.web.controller.Session" pattern="/(login|logout|session)"/>
-            <controller class="app.web.interface.Entity"   pattern="/api/v1/entity/(\d+)/([^\s]+)/(\d*)"/>
-        -->
-        <controller class="council.controller.Home" pattern="/"/>
-
         <controller
-            class="council.user.controller.RegistrationHandler"
-            pattern="/registration"
+            class="council.security.controller.CredentialActivationHandler"
+            pattern="/security/{id}"
+            regexp="false"
         />
 
         <controller

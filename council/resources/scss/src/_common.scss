@@ -1,8 +1,12 @@
-@import 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800';
-@import 'bootstrap';
-
 $animation-speed: 250ms;
 $animation-delay: 100ms;
+$fontAwesomePath: "/v/fa/font" !default;
+
+//@import 'http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700';
+@import
+    'bootstrap',
+    '../../vendor/font-awesome/sass/font-awesome.scss'
+;
 
 .hidden {
     display: none !important;
@@ -16,7 +20,7 @@ $animation-delay: 100ms;
 }
 
 .use-custom-fonts {
-    font-family: 'Open Sans', 'Helvetica Neue', 'Arial', sans-serif;
+    font-family: 'Roboto Condensed', 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 .use-system-fonts {
@@ -26,7 +30,12 @@ $animation-delay: 100ms;
 body {
     @extend .use-system-fonts;
 
-    line-height: normal;
+    margin: 0;
+    padding: 0;
+    
+    > .container-fluid {
+        margin-top: 46px;
+    }
 }
 
 footer {
@@ -56,6 +65,11 @@ a {
     right: 0;
     bottom: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+nav.control.main .brand {
+    padding-left: 20px;
+    margin-left: 0;
 }
 
 @mixin form-modal {

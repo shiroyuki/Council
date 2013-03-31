@@ -3,44 +3,38 @@
     <include src="base.xml"/><!-- include from other configuration files -->
     <include src="graph.xml"/>
     <include src="security.xml"/>
+    <include src="admin.developer.xml"/>
     <server>
         <debug>true</debug>
         <port>8000</port>
     </server>
     <routes>
-        <!-- VENDOR/BOOTSTRAP -->
-        <!--<resource
-            location="resources/vendor/foundation"
-            pattern="/v/f/(.+)"
-            cache="true"/>-->
-
         <redirection
             destination="http://shiroyuki.com/favicon.ico"
             pattern="/favicon.ico"
-            cache="true"/>
+            cache="true"
+        />
 
         <resource
             location="resources/vendor/requirejs/require.js"
             pattern="/v/r.js"
-            cache="true"/>
+            cache="true"
+        />
 
         <resource
-            location="resources/vendor/foundation-icon/foundation-icons-general"
-            pattern="/v/fi/g/(.+)"
-            cache="true"/>
-
-        <resource
-            location="resources/vendor/foundation-icon/foundation-icons-general-enclosed"
-            pattern="/v/fi/ge/(.+)"
-            cache="true"/>
-
+            location="resources/vendor/font-awesome"
+            pattern="/v/fa/**"
+            cache="true"
+            regexp="false"
+        />
+        
         <resource
             location="resources/vendor/bootstrap"
             pattern="/v/b/(.+)"
-            cache="true"/>
+            cache="true"
+        />
 
         <resource location="resources/vendor" pattern="/v/(.+)" cache="false"/>
-        <resource location="resources/css" pattern="/css/(.+)" cache="false"/>
         <resource location="resources/scss/cc" pattern="/style/(.+)" cache="false"/>
         <resource location="resources/image" pattern="/image/(.+)" cache="false"/>
         <resource location="resources/js" pattern="/js/(.+)" cache="false"/>

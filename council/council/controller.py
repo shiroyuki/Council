@@ -7,6 +7,8 @@ class Home(Controller):
     def get(self):
         if not self.authenticated:
             return self.redirect('/login')
+        elif not self.authenticated.active:
+            return self.redirect('/me')
 
         self.render('index.html', js_module_name='Index')
 

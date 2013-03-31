@@ -6,20 +6,6 @@ header {
     display: none;
 }
 
-#viewport {
-    margin-top: 40px;
-
-    .commands {
-        line-height: normal;
-    }
-}
-
-nav.control.main {
-    .brand {
-        margin-left: 0;
-    }
-}
-
 aside .panel.user {
     padding: 20px;
 
@@ -47,7 +33,7 @@ aside .panel.user {
 /***** Media Query *****/
 @media (max-width: 979px) {
     #viewport {
-        margin-top: 50px;
+        margin-top: 51px;
     }
 
     nav.control.main.navbar-fixed-top {
@@ -56,10 +42,7 @@ aside .panel.user {
 }
 
 @media (max-width: 767px) {
-    #viewport {
-        margin-left: -20px;
-        margin-right: -20px;
-    }
+    #viewport {}
 
     nav.control.main.navbar-fixed-top {
         margin: 0;

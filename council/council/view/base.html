@@ -1,41 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>{% block title %}The Council Project{% endblock %}</title>
     <meta name="viewport" content="initial-scale = 1.0, user-scalable = no"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="stylesheet" href="/v/fi/g/stylesheets/foundation-icons-general.css"/>
-    <link rel="stylesheet" href="/v/fi/ge/stylesheets/foundation-icons-general-enclosed.css"/>
     <link rel="stylesheet" href="/v/b/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/v/b/css/bootstrap-responsive.min.css"/>
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/style/page/default.css"/>
+    {% endblock %}
 </head>
 <body class="{% if council.user %}authenticated{% endif %}">
-    <header>
-        {% block header %}
-            <span class="brand">The Council Project</span>
-        {% endblock %}
-    </header>
-    <nav class="control main navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <a href="/" class="brand">The Council Project</a>
-            {% block navigation %}
-                {% if council.user %}
-                    <ul class="nav pull-right">
-                        <li><a href="/logout">Log out</a></li>
-                    </ul>
-                {% endif %}
+    <div class="container-fluid">
+        <header>{% block header %}{% endblock %}</header>
+        <nav class="control main navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <a href="/" class="brand">The Council Project</a></li>
+                {% block navigation %}{% endblock %}
+                <ul class="nav pull-right">
+                    <li class="btn-group">
+                        <a class="dropdown-toggle" data-toggle="dropdown" title="options">
+                            <i class="icon-reorder"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if council.user %}
+                                <li><a href="/me">Setting</a></li>
+                                <li><a href="/logout">Log out</a></li>
+                            {% else %}
+                                <li><a href="/login">Log in</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>                
+            </div>
+        </nav>
+        <article id="viewport">{% block body %}{% endblock %}</article>
+        <footer>
+            {% block footer %}
+                <span class="copyright">&copy; Juti Noppornpitak</span>
             {% endblock %}
-        </div>
-    </nav>
-    <article id="viewport" class="row-fluid">{% block body %}{% endblock %}</article>
-    <footer>
-        {% block footer %}
-            <span class="copyright">&copy; Juti Noppornpitak</span>
-        {% endblock %}
-    </footer>
+        </footer>
+    </div>
     {% for script_name in [
         'r',
         'jquery',
@@ -45,6 +52,16 @@
     {%- endfor %}
     <script>
         requirejs.config({baseUrl: '/js'});
+
+        // Disable highlighting
+        $(document).on(
+            'mousedown',
+            'a:not([href])',
+            function (e) {
+                e.preventDefault();
+                return false;
+            }
+        );
     </script>
     {% block javascripts %}
         {% if js_module_name %}

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/style/page/me.css"/>
+{% endblock %}
+
+{% block navigation %}
+    {#
+    <ul class="nav">
+        <li><a class="active" href="/me"><i class="icon-user"></i> Me</a></li>
+    </ul>
+    #}
+    {{ super() }}
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid">
+    <article class="span8 profile">
+        <h1>{{ council.user.name if council.user.name else council.user.email }}</h1>
+        <form action="/me" class="form-horizontal" method="post">
+            <fieldset>
+                <legend>Profile</legend>
+                <div class="control-group">
+                    <label class="control-label" for="user-name">Full Name</label>
+                    <div class="controls">
+                        <input
+                            id="user-name"
+                            name="name"
+                            type="text"
+                            placeholder="e.g., Juti Noppornpitak"
+                            value="{{ council.user.name }}"
+                            required="required"
+                        />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="user-alias">Alias</label>
+                    <div class="controls">
+                        <input
+                            id="user-alias"
+                            name="alias"
+                            type="text"
+                            placeholder="e.g., latte.ca"
+                            value="{{ council.user.alias }}"
+                            required="required"
+                        />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="user-email">E-mail Address</label>
+                    <div class="controls">
+                        <input
+                            id="user-email"
+                            name="email"
+                            type="email"
+                            placeholder="e.g., me@latte.ca"
+                            value="{{ council.user.email }}"
+                            required="required"
+                        />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </article>
+    <article class="span4 connected-id-list">
+        <h2>Connected IDs</h2>
+        <p>
+            Your account is connected and authenticated by...
+        </p>
+        <ul>
+            <li class="credential-new btn-group">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-plus"></i> Connect to a new service
+                </a>
+                <ul class="options dropdown-menu">
+                    {% for provider in provider_list %}
+                        <li><a class="option-{{ provider.alias }}" {% if provider.alias != 'dev' %}href="/login/{{ provider.alias }}?mode=link"{% endif %}>
+                            <i class="icon-{{ provider_icon_map[provider.alias] or 'cloud' }}"></i>
+                            {{ provider.name }}
+                        </a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% for credential in connected_id_list %}
+                <li class="credential btn-group" data-guid="{{ credential.id }}">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-circle{% if not credential.active %}-blank{% endif %}"></i>
+                        {{ credential.provider.name }}
+
+                        {% for role in credential.role_list %}
+                            {% if role.alias == 'admin' %}
+                                <span class="label">{{ role.name }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </a>
+                    <ul class="options dropdown-menu">
+                        <li><a class="option-allow"><i class="icon-exchange"></i> Allow the access</a></li>
+                        <li><a class="option-block"><i class="icon-ban-circle"></i> Block the access</a></li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </article>
+</div>
+{% endblock %}

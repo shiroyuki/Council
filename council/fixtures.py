@@ -2,15 +2,22 @@
 
 from tori.centre     import services
 from tori.db.fixture import Fixture
-from council.security.entity import Provider
+from council.security.entity import Provider, Role
 
 def auto_load():
     dataset = [
         (
+            Role,
+            {
+                'admin': { 'name': 'Administrator', 'alias': 'admin' },
+                'user': { 'name': 'User', 'alias': 'user' }
+            }
+        ),
+        (
             Provider,
             {
-                'dev': { '_id': 1, 'name': 'Dev' },
-                'google': { '_id': 2, 'name': 'Google' }
+                'dev': { 'name': 'Developer Mode', 'alias': 'dev' },
+                'google': { 'name': 'Google', 'alias': 'google' }
             }
         )
     ]

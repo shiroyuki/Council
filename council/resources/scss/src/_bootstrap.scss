@@ -34,7 +34,7 @@ form .form-actions {
     }
 }
 
-.btn-group {
+article .btn-group {
     &> .dropdown-menu {
         border-radius: 0;
         padding: 0;
@@ -44,20 +44,25 @@ form .form-actions {
     &> .btn:first-child {
         border-radius: 0;
     }
-}
 
-.btn-group.open {
-    &> .dropdown-menu {
-        text-align: left;
-        border: none;
-        background: #666;
+    &.open {
+        &> .dropdown-menu {
+            text-align: left;
+            border: none;
+            background: #666;
 
-        a {
-            color: #fff;
+            a {
+                color: #fff;
+            }
+        }
+
+        &> .btn {
+            background: #666 !important;
         }
     }
+}
 
-    &> .btn {
-        background: #666 !important;
-    }
+.nav .btn-group {
+    font-size: inherit;
+    margin-top: 0;
 }

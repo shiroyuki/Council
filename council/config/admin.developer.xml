@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+    <routes>
+        <controller id="admin.developer.ui" class="council.admin.developer.UI" pattern="/admin/developer"/>
+        <controller id="admin.developer.reset" class="council.admin.developer.Reset" pattern="/admin/developer/reset"/>
+    </routes>
+</application>

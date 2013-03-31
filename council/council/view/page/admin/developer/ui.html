@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="row-fluid">
+    <article class="span12">
+        <h1>Developer Mode</h1>
+
+        <article class="alert alert-error">
+            <b><i class="icon-warning-sign"></i> Warning</b>
+
+            This page is accessible without authentication. Please remove
+            <code>&lt;include src="admin.developer.xml"/&gt;</code> from
+            the configuration (e.g., <code>app.xml</code>).
+        </article>
+
+        <h2>Common Commands</h2>
+        <ul class="unstyled">
+            <li><a href="/admin/developer/reset"><i class="icon-refresh"></i> Reset the database</a></li>
+        </ul>
+    </article>
+</div>
+{% endblock %}
