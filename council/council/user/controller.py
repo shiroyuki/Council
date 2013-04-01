@@ -42,4 +42,7 @@ class MeHandler(Controller):
 
         users.put(user)
 
+        if self.is_xhr:
+            return self.set_status(200)
+
         self.redirect('/me')

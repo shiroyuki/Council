@@ -87,9 +87,10 @@
                 </ul>
             </li>
             {% for credential in connected_id_list %}
-                <li class="credential btn-group" data-guid="{{ credential.id }}">
+                <li class="credential btn-group" data-api="/my/credential/{{ credential.id }}" data-guid="{{ credential.id }}" data-active="{{ 1 if credential.active else 0 }}">
                     <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-circle{% if not credential.active %}-blank{% endif %}"></i>
+                        <i class="icon-circle-blank inactive"></i>
+                        <i class="icon-circle active"></i>
                         {{ credential.provider.name }}
 
                         {% for role in credential.role_list %}
@@ -99,8 +100,9 @@
                         {% endfor %}
                     </a>
                     <ul class="options dropdown-menu">
-                        <li><a class="option-allow"><i class="icon-exchange"></i> Allow the access</a></li>
-                        <li><a class="option-block"><i class="icon-ban-circle"></i> Block the access</a></li>
+                        <li><a class="option-enable"><i class="icon-circle"></i> Enable the access</a></li>
+                        <li><a class="option-disable"><i class="icon-circle-blank"></i> Disable the access</a></li>
+                        <li><a class="option-revoke"><i class="icon-ban-circle"></i> Revoke the access</a></li>
                     </ul>
                 </li>
             {% endfor %}

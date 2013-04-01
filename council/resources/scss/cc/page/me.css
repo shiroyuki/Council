@@ -1160,6 +1160,14 @@ aside .panel.user {
         border-radius: 0;
         background-color: #666;
         color: #fff; }
+      .connected-id-list > ul [class*="credential"][data-active="1"] i.inactive {
+        display: none; }
+      .connected-id-list > ul [class*="credential"][data-active="1"] .option-enable {
+        display: none; }
+      .connected-id-list > ul [class*="credential"][data-active="0"] i.active {
+        display: none; }
+      .connected-id-list > ul [class*="credential"][data-active="0"] .option-disable {
+        display: none; }
       .connected-id-list > ul [class*="credential"].credential-new {
         border: 1px dashed #ddd; }
         .connected-id-list > ul [class*="credential"].credential-new > a i {

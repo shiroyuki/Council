@@ -7,7 +7,12 @@
     <routes>
         <controller
             class="council.security.controller.CredentialActivationHandler"
-            pattern="/security/{id}"
+            pattern="/my/credentials"
+        />
+
+        <controller
+            class="council.security.controller.CredentialActivationHandler"
+            pattern="/my/credential/{id}"
             regexp="false"
         />
 

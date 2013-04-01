@@ -57,13 +57,33 @@
                 color: #fff;
             }
 
+            &[data-active="1"] {
+                i.inactive {
+                    display: none;
+                }
+
+                .option-enable {
+                    display: none;
+                }
+            }
+
+            &[data-active="0"] {
+                i.active {
+                    display: none;
+                }
+
+                .option-disable {
+                    display: none;
+                }
+            }
+
             &.credential-new {
                 border: 1px dashed #ddd;
 
                 & > a i {
                     color: #0099CC;
                 }
-                
+
                 & .option-dev {
                     cursor: not-allowed;
                 }
@@ -72,7 +92,7 @@
                     border-top: 1px solid #ddd;
                     margin-top: 5px;
                 }
-                
+
                 &.open {
                     border-top: none;
                     border-left: none;

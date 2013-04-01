@@ -19,12 +19,19 @@ define(
     function (EventTarget, Request) {
         'use strict';
 
-        var Form = function ($form, isAsynchronous) {
+        var Form = function ($form, options) {
             EventTarget.init(this);
 
-            this.$form          = $form;
-            this.isAsynchronous = isAsynchronous || true;
-            this.inputSelector  = 'input, textarea, select';
+            this.$form = $form;
+            
+            this.inputSelector = 'input, textarea, select';
+
+            this.options = options || {isAsynchronous: true, autoDisable: true};
+            
+            if (options !== undefined) {
+                this.options.isAsynchronous = options.isAsynchronous || true;
+                this.options.autoDisable    = options.autoDisable || true;
+            }
 
             this.$form
                 .on('submit', $.proxy(this.onSubmit, this));
@@ -102,6 +109,26 @@ define(
                 });
             },
 
+            enable: function () {
+                var $inputList = this.$form.find(this.inputSelector),
+                    $input;
+
+                $inputList.each(function (index) {
+                    $input = $(this);
+                    $input.attr('disabled', false);
+                });
+            },
+
+            disable: function () {
+                var $inputList = this.$form.find(this.inputSelector),
+                    $input;
+
+                $inputList.each(function (index) {
+                    $input = $(this);
+                    $input.attr('disabled', true);
+                });
+            },
+
             isDisabled: function () {
                 var disabled = this.$form.attr('disabled') || false;
 
@@ -122,7 +149,7 @@ define(
 
                 this.dispatchEvent('submit', userData);
 
-                if (this.isAsynchronous) {
+                if (this.options.isAsynchronous) {
                     event.preventDefault();
                 }
 
@@ -136,6 +163,10 @@ define(
                 request.addEventListener('error', this.onError, this);
                 request.addEventListener('done', this.onDone, this);
 
+                if (this.options.autoDisable) {
+                    this.disable();
+                }
+
                 request.send();
             },
 
@@ -148,6 +179,7 @@ define(
             },
 
             onDone: function (event) {
+                this.enable();
                 this.dispatchEvent('done', {});
             },
 

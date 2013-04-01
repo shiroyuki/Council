@@ -8,6 +8,7 @@
     </server>
     <routes>
         <controller class="council.controller.Home" pattern="/"/>
+
         <controller
             class="council.user.controller.MeHandler"
             pattern="/me"

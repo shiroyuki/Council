@@ -1,24 +1,71 @@
 # -*- encoding: utf-8 -*-
+import bson
+import json
 from tornado.auth import GoogleMixin
 from tornado.web  import asynchronous, HTTPError
-
 from council.common.handler     import Controller
 from council.security.entity    import Credential, Provider, Role
 from council.security.exception import ControllerException
 from council.user.entity        import User
 
 class CredentialActivationHandler(Controller):
-    def put(self, id):
+    def get(self, id=''):
+        if not self.authenticated:
+            raise HTTPError(405)
+
         session     = self.open_session()
         credentials = session.collection(Credential)
-        credential  = credentials.get(id)
-        is_active   = self.get_argument('active', None)
-        
+
+        credential_list = []
+
+        for credential in credentials.filter({'user': self.authenticated.id}):
+            credential_list.append({
+                'id':     str(credential.id),
+                'active': credential.active,
+                'provider': {
+                    'alias': credential.provider.alias
+                }
+            })
+
+        self.finish(json.dumps(credential_list))
+
+    def put(self, id):
+        if not self.authenticated:
+            raise HTTPError(405)
+
+        updated_data = json.loads(self.request.body)
+
+        session     = self.open_session()
+        credentials = session.collection(Credential)
+        credential  = credentials.get(bson.ObjectId(id))
+        is_active   = updated_data['active'] if 'active' in updated_data else False
+
         if not credential:
             raise HTTPError(404)
-        
-        credential.active = is_active.lower() == 'true' if is_active != None else True
-        
+        elif not credential.user.id == self.authenticated.id:
+            raise HTTPError(403)
+
+        credential.active = is_active
+
+        credentials.put(credential)
+
+        self.set_status(200)
+
+    def delete(self, id):
+        if not self.authenticated:
+            raise HTTPError(405)
+
+        session     = self.open_session()
+        credentials = session.collection(Credential)
+        credential  = credentials.get(bson.ObjectId(id))
+
+        if not credential:
+            raise HTTPError(404)
+        elif not credential.user.id == self.authenticated.id:
+            raise HTTPError(403)
+
+        credentials.delete(credential)
+
         self.set_status(200)
 
 ##### Deauthentication #####
@@ -72,6 +119,9 @@ class BaseLoginHandler(Controller):
         })
 
         if self.mode == self.MODE_AUTH:
+            if credential and not credential.active:
+                raise HTTPError(403, 'The selected credential is disabled.')
+
             user = users.new(name='', alias='', email=data['email'])
 
             if not credential:
@@ -83,7 +133,8 @@ class BaseLoginHandler(Controller):
                     hash  = None,
                     salt  = None,
                     provider  = provider.id,
-                    role_list = [role]
+                    role_list = [role],
+                    active = True
                 )
 
                 credentials.post(credential)
@@ -111,7 +162,8 @@ class BaseLoginHandler(Controller):
                 hash  = None,
                 salt  = None,
                 provider  = provider.id,
-                role_list = [role]
+                role_list = [role],
+                active = True
             )
 
             credentials.post(credential)
