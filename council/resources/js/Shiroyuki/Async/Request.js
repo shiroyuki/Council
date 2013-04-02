@@ -6,12 +6,13 @@ define(
     function (Extension) {
         'use strict';
 
-        var Request = function (url, method, data) {
+        var Request = function (url, method, data, contentType) {
             Extension.init(this);
 
             this.url    = url;
             this.data   = data || {};
             this.method = method || 'GET';
+            this.contentType  = contentType || null;
             this.responseType = null;
         };
 
@@ -38,22 +39,28 @@ define(
                         url:    this.url,
                         data:   this.data,
                         method: this.method
+                    },
+                    requestOptionMap = {
+                        url:      this.url,
+                        data:     this.data,
+                        success:  $.proxy(this.onSuccessfulRequest, this),
+                        error:    $.proxy(this.onFailedRequest, this),
+                        type:     this.method,
+                        dataType: this.responseType,
+                        headers:  {
+                            'Cache-Control': 'no-cache',
+                            'If-None-Match': 'no-cache'
+                        }
                     };
+                
+                if (this.contentType) {
+                    requestOptionMap.contentType = this.contentType;
+                    requestOptionMap.data        = JSON.stringify(requestOptionMap.data)
+                }
 
                 this.dispatchEvent('sending', params);
 
-                $.ajax({
-                    url:      this.url,
-                    data:     this.data,
-                    success:  $.proxy(this.onSuccessfulRequest, this),
-                    error:    $.proxy(this.onFailedRequest, this),
-                    type:     this.method,
-                    dataType: this.responseType,
-                    headers:  {
-                        'Cache-Control': 'no-cache',
-                        'If-None-Match': 'no-cache'
-                    }
-                });
+                $.ajax(requestOptionMap);
 
                 this.dispatchEvent('sent', params);
             },

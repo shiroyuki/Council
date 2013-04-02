@@ -1,33 +1,36 @@
 import json
 from tornado.web import HTTPError
-from tori.data.serializer import ArraySerializer
+from tori.db.common import Serializer
 from council.common.handler import RestController
 from council.graph.document import Project
 
 class ProjectController(RestController):
-    __collection     = None
-    __data_converter = None
+    def __init__(self, *args, **kwargs):
+        RestController.__init__(self, *args, **kwargs)
+        self.__collection     = None
+        self.__data_converter = None
 
     @property
     def collection(self):
-        '''Project Collection
+        ''' Project Collection
 
-        :rtype: tori.db.odm.collection.Collection
+            :rtype: tori.db.odm.collection.Collection
         '''
         if not self.__collection:
-            self.__collection = collection = self.component('council.collection.security.Project')
+            session = self.open_session()
+
+            self.__collection = session.collection(Project)
 
         return self.__collection
 
     @property
     def data_converter(self):
-        '''Data-to-array Converter
+        ''' Data-to-array Converter
 
-        :rtype: tori.data.serializer.ArraySerializer
+            :rtype: tori.data.serializer.ArraySerializer
         '''
         if not self.__data_converter:
-            self.__data_converter = ArraySerializer()
-            self.__data_converter.set_max_depth(10)
+            self.__data_converter = Serializer()
 
         return self.__data_converter
 
@@ -36,21 +39,14 @@ class ProjectController(RestController):
             'name': self.get_argument('name')
         }
 
-        try:
-            raw_data['description'] = self.get_argument('description')
-        except HTTPError:
-            pass
-
-        try:
-            raw_data['public'] = int(self.get_argument('public'))
-        except HTTPError:
-            raw_data['public'] = 0
+        raw_data['description'] = self.get_argument('description', convert_object_id_to_str=None)
+        raw_data['public']      = int(self.get_argument('public', 0))
 
         return raw_data
 
     def respond_with_entity(self, entity):
         self.set_header('content-type', 'application/json')
-        self.write(self.data_converter.convert(entity))
+        self.write(self.data_converter.encode(entity, convert_object_id_to_str=True))
 
     def retrieve(self, id):
         project = self.collection.get(id)
@@ -62,15 +58,14 @@ class ProjectController(RestController):
         self.respond_with_entity(project)
 
     def create(self):
-        raw_data = self.get_data()
+        data = self.get_request_data()
 
-        raw_data['leader'] = self.authenticated.id
+        data['leader'] = self.authenticated.id
 
-        if self.collection.filter_one(name = raw_data['name']):
-            self.set_status(403)
-            return
+        if self.collection.filter_one({'name': data['name'], 'leader': data['leader']}):
+            raise HTTPError(403)
 
-        project = Project(**raw_data)
+        project = self.collection.new(**data)
 
         self.collection.post(project)
 
@@ -80,7 +75,7 @@ class ProjectController(RestController):
         projects = []
 
         for project in self.collection.filter():
-            projects.append(self.data_converter.convert(project))
+            projects.append(self.data_converter.encode(project, convert_object_id_to_str=True))
 
         self.set_header('content-type', 'application/json')
         self.write(json.dumps(projects))
@@ -96,8 +91,6 @@ class ProjectController(RestController):
 
         for key in raw_data:
             project.__setattr__(key, raw_data[key])
-
-        print(project.to_dict())
 
         self.collection.put(project)
 

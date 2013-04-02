@@ -25,6 +25,7 @@ define(
             this.$form = $form;
             
             this.inputSelector = 'input, textarea, select';
+            this.contentType   = this.$form.attr('enctype') || null;
 
             this.options = options || {isAsynchronous: true, autoDisable: true};
             
@@ -157,7 +158,12 @@ define(
                     return;
                 }
 
-                request = new Request(this.$form.attr('action'), this.$form.attr('method'), this.getData());
+                request = new Request(
+                    this.$form.attr('action'),
+                    this.$form.attr('method'),
+                    this.getData(),
+                    this.contentType
+                );
 
                 request.addEventListener('success', this.onSuccess, this);
                 request.addEventListener('error', this.onError, this);

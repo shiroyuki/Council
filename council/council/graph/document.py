@@ -5,5 +5,5 @@ class Project(object):
     def __init__(self, name, leader, description='', public=False):
         self.name        = name
         self.description = description
-        self.public      = public
+        self.public      = public or False
         self.leader      = leader

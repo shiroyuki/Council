@@ -20,7 +20,7 @@ define(
                     return this.rawDataMap[templateName];
                 }
 
-                rawData = this.context.find(['[data-template="', templateName, '"]'].join('')).html()
+                rawData = $.trim(this.context.find(['[data-template="', templateName, '"]'].join('')).html());
 
                 if (this.cache) {
                     this.rawDataMap[templateName] = rawData;

@@ -1,3 +1,4 @@
+import json
 from tornado.web import HTTPError
 from tori.controller import Controller     as BaseController
 from tori.controller import RestController as BaseRestController
@@ -5,12 +6,13 @@ from tori.socket.rpc import Interface      as BaseInterface
 from council.security.entity import Credential
 from council.user.entity     import User
 
-class Controller(BaseController):
-    def __init__(self, *args, **kwargs):
-        BaseController.__init__(self, *args, **kwargs)
-
-        self.__session = None
+class Mixin(object):
+    def __init__(self):
+        self.__db_session   = None
         self.__current_user = None
+
+    def get_request_data(self):
+        return json.loads(self.request.body)
 
     @property
     def authenticated(self):
@@ -27,10 +29,15 @@ class Controller(BaseController):
         return self.__current_user
 
     def open_session(self):
-        if not self.__session:
-            self.__session = self.component('entity_manager').open_session(supervised=False)
+        if not self.__db_session:
+            self.__db_session = self.component('entity_manager').open_session(supervised=False)
 
-        return self.__session
+        return self.__db_session
+
+class Controller(BaseController, Mixin):
+    def __init__(self, *args, **kwargs):
+        BaseController.__init__(self, *args, **kwargs)
+        super(Mixin, self).__init__()
 
     def render_template(self, template_name, **contexts):
         contexts['council'] = {
@@ -42,10 +49,10 @@ class Controller(BaseController):
     def respond_with_error(self, status):
         raise HTTPError(status)
 
-class RestController(BaseRestController):
-    @property
-    def authenticated(self):
-        return self.session.get('user')
+class RestController(BaseRestController, Mixin):
+    def __init__(self, *args, **kwargs):
+        BaseRestController.__init__(self, *args, **kwargs)
+        super(Mixin, self).__init__()
 
 class WSRPCInterface(BaseInterface):
     @property

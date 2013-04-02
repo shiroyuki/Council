@@ -33,7 +33,7 @@ class CredentialActivationHandler(Controller):
         if not self.authenticated:
             raise HTTPError(405)
 
-        updated_data = json.loads(self.request.body)
+        updated_data = self.get_request_data()
 
         session     = self.open_session()
         credentials = session.collection(Credential)
